@@ -3,6 +3,7 @@ import { requireAdmin } from "@/lib/modules/auth/rbac"
 import { getSchoolInquiries, updateSchoolInquiryStatus, deleteSchoolInquiry } from "@/lib/modules/school/inquiry.service"
 import { formatDate } from "@/lib/utils/format"
 import { Button } from "@/components/ui/button"
+import { AutoSubmitSelect } from "@/components/ui/auto-submit-select"
 import { GraduationCap, MessageSquare, Trash2 } from "lucide-react"
 
 export default async function AdminInquiriesPage() {
@@ -91,10 +92,9 @@ export default async function AdminInquiriesPage() {
 
                   <form action={handleStatusChange} className="flex items-center gap-2">
                     <input type="hidden" name="id" value={inq.id} />
-                    <select
+                    <AutoSubmitSelect
                       name="status"
                       defaultValue={inq.status}
-                      onChange={(e) => e.target.form?.requestSubmit()}
                       aria-label={`Ubah status pengajuan ${inq.schoolName}`}
                       className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
                     >
@@ -103,7 +103,7 @@ export default async function AdminInquiriesPage() {
                       <option value="proposal_sent">Proposal Sent</option>
                       <option value="confirmed">Confirmed</option>
                       <option value="declined">Declined</option>
-                    </select>
+                    </AutoSubmitSelect>
                   </form>
 
                   <form action={handleDelete}>

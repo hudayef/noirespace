@@ -4,6 +4,7 @@ import { getInstructors, createInstructor, updateInstructor, deleteInstructor } 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { AutoSubmitSelect } from "@/components/ui/auto-submit-select"
 import { Users, Trash2 } from "lucide-react"
 
 export default async function AdminInstructorsPage() {
@@ -78,16 +79,15 @@ export default async function AdminInstructorsPage() {
                   <div className="flex items-center gap-2.5">
                     <form action={handleStatusChange}>
                       <input type="hidden" name="id" value={inst.id} />
-                      <select
+                      <AutoSubmitSelect
                         name="status"
                         defaultValue={inst.status}
-                        onChange={(e) => e.target.form?.requestSubmit()}
                         aria-label={`Ubah status mentor ${inst.name}`}
                         className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
-                      </select>
+                      </AutoSubmitSelect>
                     </form>
 
                     <form action={handleDelete}>

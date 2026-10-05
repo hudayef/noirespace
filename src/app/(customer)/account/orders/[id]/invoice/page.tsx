@@ -6,8 +6,8 @@ import { users } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import { getOrderById } from "@/lib/modules/commerce/order.service"
 import { formatRupiah, formatDate, formatTime } from "@/lib/utils/format"
-import { Button } from "@/components/ui/button"
-import { Building2, Calendar, Clock, MapPin, Printer, ArrowLeft } from "lucide-react"
+import { PrintButton } from "@/components/ui/print-button"
+import { Building2, Calendar, Clock, MapPin, ArrowLeft } from "lucide-react"
 
 interface InvoiceBooking {
   id: string
@@ -73,15 +73,7 @@ export default async function InvoicePage({ params }: Props) {
             <h1 className="text-2xl font-extrabold tracking-tight text-white">#{order.orderNumber}</h1>
           </div>
         </div>
-        <Button
-          type="button"
-          onClick={() => window.print()}
-          variant="outline"
-          className="h-10 text-xs uppercase tracking-widest font-semibold border-white/[0.12] text-neutral-200 hover:text-white hover:bg-white/[0.06] flex items-center gap-2"
-        >
-          <Printer className="h-4 w-4 text-amber-400" />
-          <span>Cetak / Simpan PDF</span>
-        </Button>
+        <PrintButton />
       </div>
 
       <div className="space-y-6">

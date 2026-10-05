@@ -4,6 +4,7 @@ import { getResources, getLocations, createResource, updateResource, deleteResou
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { AutoSubmitSelect } from "@/components/ui/auto-submit-select"
 import { Wrench, Trash2 } from "lucide-react"
 
 export default async function AdminResourcesPage() {
@@ -82,16 +83,15 @@ export default async function AdminResourcesPage() {
                   <div className="flex items-center gap-2.5">
                     <form action={handleStatusChange}>
                       <input type="hidden" name="id" value={res.id} />
-                      <select
+                      <AutoSubmitSelect
                         name="status"
                         defaultValue={res.status}
-                        onChange={(e) => e.target.form?.requestSubmit()}
-                        aria-label={`Ubah status alat ${res.name}`}
+                        aria-label={`Ubah status resource ${res.name}`}
                         className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
-                      </select>
+                      </AutoSubmitSelect>
                     </form>
 
                     <form action={handleDelete}>
