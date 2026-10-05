@@ -13,7 +13,7 @@ export async function requireAuth() {
 
 export async function requireRole(allowedRoles: string[]) {
   const user = await requireAuth()
-  const roles = (user as any).roles || []
+  const roles = (user as { roles?: string[] }).roles || []
   const hasRole = roles.some((r: string) => allowedRoles.includes(r))
   if (!hasRole) throw new Error("Forbidden")
   return user

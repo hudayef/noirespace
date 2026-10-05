@@ -15,9 +15,10 @@ export async function POST(req: NextRequest) {
     }
 
     const { name, email, phone, password } = parsed.data
+    const normalizedEmail = email.toLowerCase().trim()
 
     const existing = await db.query.users.findFirst({
-      where: eq(users.email, email),
+      where: eq(users.email, normalizedEmail),
     })
 
     if (existing) {
@@ -27,9 +28,9 @@ export async function POST(req: NextRequest) {
     const passwordHash = await hash(password, 10)
 
     const [user] = await db.insert(users).values({
-      name,
-      email,
-      phone: phone || null,
+      name: name.trim(),
+      email: normalizedEmail,
+      phone: phone ? phone.trim() : null,
       passwordHash,
     }).returning()
 

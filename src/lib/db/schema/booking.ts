@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, integer, time, date } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp, uuid, integer, time, date, index } from "drizzle-orm/pg-core"
 import { users } from "./auth"
 import { products } from "./catalog"
 import { rooms, resources, instructors } from "./resource"
@@ -25,7 +25,13 @@ export const bookings = pgTable("bookings", {
   cancellationReason: text("cancellation_reason"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
-})
+}, (table) => [
+  index("idx_bookings_product_date_status").on(table.productId, table.bookingDate, table.status),
+  index("idx_bookings_customer").on(table.customerId),
+  index("idx_bookings_date").on(table.bookingDate),
+  index("idx_bookings_room_time").on(table.roomId, table.bookingDate, table.startTime),
+  index("idx_bookings_instructor_time").on(table.instructorId, table.bookingDate, table.startTime),
+])
 
 export const bookingResources = pgTable("booking_resources", {
   id: uuid("id").primaryKey().defaultRandom(),

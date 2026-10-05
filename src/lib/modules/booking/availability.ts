@@ -1,6 +1,6 @@
 import { db } from "@/lib/db"
-import { products, bookings, blockedDates, businessHours, schedules } from "@/lib/db/schema"
-import { eq, and, ne } from "drizzle-orm"
+import { products, bookings, blockedDates, businessHours, schedules, cartItems, carts } from "@/lib/db/schema"
+import { eq, and, ne, gt } from "drizzle-orm"
 
 export interface TimeSlot {
   startTime: string
@@ -30,16 +30,16 @@ export async function getAvailableSlots(productId: string, dateStr: string): Pro
     return []
   }
 
-  const targetDate = new Date(`${dateStr}T00:00:00Z`)
+  const targetDateWIB = new Date(`${dateStr}T00:00:00+07:00`)
   const now = new Date()
 
-  const diffHours = (targetDate.getTime() - now.getTime()) / (1000 * 60 * 60)
+  const diffHours = (targetDateWIB.getTime() - now.getTime()) / (1000 * 60 * 60)
   if (diffHours < (product.minBookingNoticeHours || 0) - 24) {
     return []
   }
 
   const maxAdvanceMs = (product.maxAdvanceBookingDays || 30) * 24 * 60 * 60 * 1000
-  if (targetDate.getTime() - now.getTime() > maxAdvanceMs) {
+  if (targetDateWIB.getTime() - now.getTime() > maxAdvanceMs) {
     return []
   }
 
@@ -50,7 +50,7 @@ export async function getAvailableSlots(productId: string, dateStr: string): Pro
     return []
   }
 
-  const dayOfWeek = new Date(dateStr).getDay()
+  const dayOfWeek = targetDateWIB.getDay()
 
   const bHours = await db.query.businessHours.findFirst({
     where: eq(businessHours.dayOfWeek, dayOfWeek),
@@ -96,7 +96,7 @@ export async function getAvailableSlots(productId: string, dateStr: string): Pro
     }
   }
 
-  const existingBookings = await db.query.bookings.findMany({
+  const allBookings = await db.query.bookings.findMany({
     where: and(
       eq(bookings.productId, productId),
       eq(bookings.bookingDate, dateStr),
@@ -104,20 +104,53 @@ export async function getAvailableSlots(productId: string, dateStr: string): Pro
     ),
   })
 
+  const cutoffPendingTime = new Date(Date.now() - 24 * 60 * 60 * 1000)
+  const activeBookings = allBookings.filter((b) => {
+    if (b.status === "pending" && b.createdAt < cutoffPendingTime) {
+      return false
+    }
+    return true
+  })
+
+  const heldCartItems = await db
+    .select({
+      startTime: cartItems.startTime,
+      endTime: cartItems.endTime,
+      quantity: cartItems.quantity,
+    })
+    .from(cartItems)
+    .innerJoin(carts, eq(cartItems.cartId, carts.id))
+    .where(
+      and(
+        eq(cartItems.productId, productId),
+        eq(cartItems.bookingDate, dateStr),
+        gt(carts.expiresAt, now)
+      )
+    )
+
   const results: TimeSlot[] = []
 
   for (const slot of candidateSlots) {
     const startStr = formatMinutesToTime(slot.start)
     const endStr = formatMinutesToTime(slot.end)
 
-    const overlapping = existingBookings.filter((b) => {
+    const overlappingBookings = activeBookings.filter((b) => {
       const bStart = parseTimeToMinutes(b.startTime)
       const bEnd = parseTimeToMinutes(b.endTime)
       return Math.max(slot.start, bStart) < Math.min(slot.end, bEnd)
     })
 
-    const bookedCount = overlapping.reduce((acc, curr) => acc + (curr.participants || 1), 0)
-    const remaining = Math.max(0, maxCap - bookedCount)
+    const overlappingCartItems = heldCartItems.filter((item) => {
+      if (!item.startTime || !item.endTime) return false
+      const cStart = parseTimeToMinutes(item.startTime)
+      const cEnd = parseTimeToMinutes(item.endTime)
+      return Math.max(slot.start, cStart) < Math.min(slot.end, cEnd)
+    })
+
+    const bookedCount = overlappingBookings.reduce((acc, curr) => acc + (curr.participants || 1), 0)
+    const heldCount = overlappingCartItems.reduce((acc, curr) => acc + (curr.quantity || 1), 0)
+    const totalOccupied = bookedCount + heldCount
+    const remaining = Math.max(0, maxCap - totalOccupied)
     const isAvailable = remaining > 0
 
     results.push({

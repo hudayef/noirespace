@@ -3,6 +3,8 @@ import Link from "next/link"
 import { getProductBySlug } from "@/lib/modules/catalog/catalog.service"
 import { formatRupiah } from "@/lib/utils/format"
 import { Button } from "@/components/ui/button"
+import { BookingCalendar } from "@/components/features/booking/booking-calendar"
+import { ArrowLeft, Check, Sparkles, GraduationCap } from "lucide-react"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -30,27 +32,45 @@ export default async function ProgramDetailPage({ params }: Props) {
   const requirements = (product.requirements as string[]) || []
 
   return (
-    <div className="container py-12">
+    <div className="container mx-auto px-6 lg:px-12 py-12 space-y-8">
+      <div>
+        <Link
+          href="/programs"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Kembali ke Katalog Program</span>
+        </Link>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 space-y-8">
-          <div>
-            <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Program Edukasi</span>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight mt-2">{product.name}</h1>
+          <div className="space-y-3">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-indigo-400 font-semibold flex items-center gap-2">
+              <GraduationCap className="h-4 w-4" />
+              <span>Program Edukasi & Inkubasi</span>
+            </span>
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">{product.name}</h1>
           </div>
 
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="text-lg leading-relaxed text-muted-foreground">
+          <div>
+            <p className="text-base text-neutral-300 leading-relaxed whitespace-pre-line">
               {product.description || product.shortDescription}
             </p>
           </div>
 
           {includes.length > 0 && (
-            <div className="space-y-4 rounded-lg border p-6">
-              <h2 className="text-xl font-bold">Apa yang Kamu Dapatkan:</h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+            <div className="space-y-4 rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-indigo-400" />
+                <span>Materi & Fasilitas yang Kamu Dapatkan:</span>
+              </h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-neutral-300">
                 {includes.map((inc, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
+                  <li key={i} className="flex items-center gap-2.5">
+                    <span className="h-4 w-4 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0">
+                      <Check className="h-2.5 w-2.5" />
+                    </span>
                     <span>{inc}</span>
                   </li>
                 ))}
@@ -59,53 +79,71 @@ export default async function ProgramDetailPage({ params }: Props) {
           )}
 
           {requirements.length > 0 && (
-            <div className="space-y-4 rounded-lg border p-6">
-              <h2 className="text-xl font-bold">Persyaratan:</h2>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+            <div className="space-y-4 rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8">
+              <h2 className="text-base font-bold text-white">Persyaratan Peserta:</h2>
+              <ul className="space-y-2 text-sm text-neutral-400">
                 {requirements.map((req, i) => (
                   <li key={i} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-neutral-500" />
                     <span>{req}</span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
+
+          {/* In-place Booking Section */}
+          <div id="booking-section" className="space-y-4 pt-6 border-t border-white/[0.08] scroll-mt-28">
+            <div className="space-y-1">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-indigo-400 font-semibold">
+                Pilih Jadwal Kelas Langsung
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Pilih Batch & Waktu Sesi</h2>
+              <p className="text-xs text-neutral-400">Pilih tanggal dan jam belajar yang tersedia untuk melanjutkan registrasi.</p>
+            </div>
+            <BookingCalendar
+              productId={product.id}
+              productPrice={product.price}
+              productName={product.name}
+            />
+          </div>
         </div>
 
         <div>
-          <div className="rounded-lg border bg-card p-6 space-y-6 sticky top-24">
+          <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-6 sticky top-28 shadow-xl">
             <div>
-              <span className="text-xs text-muted-foreground block">Biaya Registrasi</span>
-              <span className="text-3xl font-bold">{product.price === 0 ? "Gratis" : formatRupiah(product.price)}</span>
+              <span className="text-[10px] uppercase tracking-wider text-neutral-400 block font-semibold">Biaya Registrasi</span>
+              <span className="text-3xl font-extrabold text-white mt-1 block">
+                {product.price === 0 ? "Gratis" : formatRupiah(product.price)}
+              </span>
             </div>
 
-            <div className="space-y-2 text-sm text-muted-foreground border-y py-4">
+            <div className="space-y-3 text-xs text-neutral-300 border-y border-white/[0.08] py-4">
               {product.durationMinutes && (
-                <div className="flex justify-between">
-                  <span>Total Durasi</span>
-                  <span className="font-medium text-foreground">{product.durationMinutes} menit</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-neutral-400">Total Durasi</span>
+                  <span className="font-bold text-white">{product.durationMinutes} Menit</span>
                 </div>
               )}
               {product.capacity && (
-                <div className="flex justify-between">
-                  <span>Kapasitas Kelas</span>
-                  <span className="font-medium text-foreground">{product.capacity} peserta</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-neutral-400">Kapasitas Kelas</span>
+                  <span className="font-bold text-white">{product.capacity} Siswa</span>
                 </div>
               )}
-              <div className="flex justify-between">
-                <span>Konfirmasi</span>
-                <span className="font-medium text-foreground">Instan via Email</span>
+              <div className="flex justify-between items-center">
+                <span className="text-neutral-400">Konfirmasi</span>
+                <span className="font-bold text-emerald-400">Instan via Email</span>
               </div>
             </div>
 
-            <Link href={`/booking?productId=${product.id}`} className="block">
-              <Button size="lg" className="w-full">
-                Daftar & Pilih Jadwal
+            <a href="#booking-section" className="block">
+              <Button size="lg" className="w-full h-12 text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200 shadow-[0_0_20px_rgba(255,255,255,0.12)]">
+                Daftar & Pilih Jadwal ↓
               </Button>
-            </Link>
+            </a>
 
-            <p className="text-xs text-center text-muted-foreground">
+            <p className="text-[11px] text-center text-neutral-500 leading-normal">
               Sesuai kebijakan Noire Space, pendaftaran yang telah dibayar tidak dapat direfund.
             </p>
           </div>

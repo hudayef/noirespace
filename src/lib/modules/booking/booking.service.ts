@@ -1,7 +1,8 @@
 import { db } from "@/lib/db"
-import { bookings, bookingReschedules, products } from "@/lib/db/schema"
-import { eq, and, desc, gte } from "drizzle-orm"
+import { bookings, bookingReschedules, products, schedules, orders } from "@/lib/db/schema"
+import { eq, and, desc, gte, sql, ne } from "drizzle-orm"
 import { validateBookingSlot } from "./conflict"
+import { canReschedule, canCancelBooking } from "./policy"
 
 export async function getUserBookings(customerId: string) {
   return db
@@ -83,107 +84,144 @@ export async function rescheduleBooking(params: {
 }) {
   const { bookingId, newDate, newStartTime, newEndTime, reason, userId } = params
 
-  const booking = await db.query.bookings.findFirst({
-    where: eq(bookings.id, bookingId),
-  })
+  return db.transaction(async (tx) => {
+    const booking = await tx.query.bookings.findFirst({
+      where: eq(bookings.id, bookingId),
+    })
 
-  if (!booking) {
-    throw new Error("Booking tidak ditemukan")
-  }
+    if (!booking) {
+      throw new Error("Booking tidak ditemukan")
+    }
 
-  if (booking.customerId !== userId) {
-    throw new Error("Tidak memiliki izin untuk booking ini")
-  }
+    if (booking.customerId !== userId) {
+      throw new Error("Tidak memiliki izin untuk booking ini")
+    }
 
-  if (booking.status !== "confirmed") {
-    throw new Error("Hanya booking yang telah dikonfirmasi yang dapat di-reschedule")
-  }
+    const existingReschedules = await tx.query.bookingReschedules.findMany({
+      where: eq(bookingReschedules.bookingId, bookingId),
+    })
 
-  const existingReschedules = await db.query.bookingReschedules.findMany({
-    where: eq(bookingReschedules.bookingId, bookingId),
-  })
+    const bookingDateTime = new Date(`${booking.bookingDate}T${booking.startTime}+07:00`)
+    const check = canReschedule({
+      status: booking.status,
+      bookingDateTime,
+      rescheduleCount: existingReschedules.length,
+      now: new Date(),
+    })
 
-  if (existingReschedules.length >= 1) {
-    throw new Error("Batas reschedule telah tercapai (maksimal 1 kali)")
-  }
+    if (!check.allowed) {
+      throw new Error(check.reason || "Pengajuan reschedule tidak memenuhi syarat")
+    }
 
-  const bookingDateTime = new Date(`${booking.bookingDate}T${booking.startTime}`)
-  const diffHours = (bookingDateTime.getTime() - Date.now()) / (1000 * 60 * 60)
+    // Acquire transaction lock on target product and target date
+    await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${booking.productId} || '_' || ${newDate}))`)
 
-  if (diffHours < 24) {
-    throw new Error("Reschedule hanya dapat dilakukan maksimal 24 jam sebelum jadwal")
-  }
+    const newDayOfWeek = new Date(`${newDate}T00:00:00+07:00`).getDay()
+    const targetSchedule = await tx.query.schedules.findFirst({
+      where: and(
+        eq(schedules.productId, booking.productId),
+        eq(schedules.status, "active"),
+        eq(schedules.dayOfWeek, newDayOfWeek)
+      ),
+    })
 
-  const validation = await validateBookingSlot({
-    productId: booking.productId,
-    bookingDate: newDate,
-    startTime: newStartTime,
-    endTime: newEndTime,
-    participants: booking.participants,
-    roomId: booking.roomId,
-    instructorId: booking.instructorId,
-    excludeBookingId: booking.id,
-  })
+    const targetRoomId = booking.roomId || targetSchedule?.roomId || null
+    const targetInstructorId = booking.instructorId || targetSchedule?.instructorId || null
 
-  if (!validation.valid) {
-    throw new Error(validation.error || "Slot waktu baru tidak tersedia")
-  }
-
-  await db.insert(bookingReschedules).values({
-    bookingId: booking.id,
-    originalDate: booking.bookingDate,
-    originalStartTime: booking.startTime,
-    originalEndTime: booking.endTime,
-    newDate,
-    newStartTime,
-    newEndTime,
-    reason: reason || null,
-    requestedBy: userId,
-    status: "approved",
-  })
-
-  const [updated] = await db
-    .update(bookings)
-    .set({
+    const validation = await validateBookingSlot({
+      productId: booking.productId,
       bookingDate: newDate,
       startTime: newStartTime,
       endTime: newEndTime,
-      updatedAt: new Date(),
+      participants: booking.participants,
+      roomId: targetRoomId,
+      instructorId: targetInstructorId,
+      excludeBookingId: booking.id,
+      client: tx,
     })
-    .where(eq(bookings.id, bookingId))
-    .returning()
 
-  return updated
+    if (!validation.valid) {
+      throw new Error(validation.error || "Slot waktu baru tidak tersedia")
+    }
+
+    await tx.insert(bookingReschedules).values({
+      bookingId: booking.id,
+      originalDate: booking.bookingDate,
+      originalStartTime: booking.startTime,
+      originalEndTime: booking.endTime,
+      newDate,
+      newStartTime,
+      newEndTime,
+      reason: reason || null,
+      requestedBy: userId,
+      status: "approved",
+    })
+
+    const [updated] = await tx
+      .update(bookings)
+      .set({
+        bookingDate: newDate,
+        startTime: newStartTime,
+        endTime: newEndTime,
+        roomId: targetRoomId,
+        instructorId: targetInstructorId,
+        scheduleId: targetSchedule?.id || booking.scheduleId,
+        updatedAt: new Date(),
+      })
+      .where(eq(bookings.id, bookingId))
+      .returning()
+
+    return updated
+  })
 }
 
 export async function cancelBookingPrePayment(bookingId: string, userId: string, reason?: string) {
-  const booking = await db.query.bookings.findFirst({
-    where: eq(bookings.id, bookingId),
-  })
-
-  if (!booking) {
-    throw new Error("Booking tidak ditemukan")
-  }
-
-  if (booking.customerId !== userId) {
-    throw new Error("Tidak memiliki izin untuk membatalkan booking ini")
-  }
-
-  if (booking.status !== "pending") {
-    throw new Error("Pembatalan hanya diperbolehkan sebelum pembayaran diselesaikan")
-  }
-
-  const [cancelled] = await db
-    .update(bookings)
-    .set({
-      status: "cancelled",
-      cancelledAt: new Date(),
-      cancelledBy: userId,
-      cancellationReason: reason || "Dibatalkan oleh pelanggan",
-      updatedAt: new Date(),
+  return db.transaction(async (tx) => {
+    const booking = await tx.query.bookings.findFirst({
+      where: eq(bookings.id, bookingId),
     })
-    .where(eq(bookings.id, bookingId))
-    .returning()
 
-  return cancelled
+    if (!booking) {
+      throw new Error("Booking tidak ditemukan")
+    }
+
+    if (booking.customerId !== userId) {
+      throw new Error("Tidak memiliki izin untuk membatalkan booking ini")
+    }
+
+    if (!canCancelBooking(booking.status)) {
+      throw new Error("Pembatalan hanya diperbolehkan sebelum pembayaran diselesaikan")
+    }
+
+    const [cancelled] = await tx
+      .update(bookings)
+      .set({
+        status: "cancelled",
+        cancelledAt: new Date(),
+        cancelledBy: userId,
+        cancellationReason: reason || "Dibatalkan oleh pelanggan",
+        updatedAt: new Date(),
+      })
+      .where(eq(bookings.id, bookingId))
+      .returning()
+
+    // If this booking belongs to an order, check if any active bookings remain
+    if (booking.orderId) {
+      const remainingActiveBookings = await tx.query.bookings.findMany({
+        where: and(
+          eq(bookings.orderId, booking.orderId),
+          ne(bookings.status, "cancelled")
+        ),
+      })
+
+      if (remainingActiveBookings.length === 0) {
+        await tx
+          .update(orders)
+          .set({ status: "cancelled", updatedAt: new Date() })
+          .where(and(eq(orders.id, booking.orderId), eq(orders.status, "pending")))
+      }
+    }
+
+    return cancelled
+  })
 }

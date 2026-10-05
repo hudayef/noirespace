@@ -81,8 +81,9 @@ export class MidtransAdapter implements PaymentAdapter {
     const fraudStatus = payload.fraud_status as string
 
     if (!this.serverKey) {
+      // Mock mode (no server key): only accept locally-generated mock callbacks
       return {
-        isValid: true,
+        isValid: signatureKey === "mock",
         orderNumber: orderId,
         transactionStatus: "paid",
         rawPayload: payload,
@@ -92,7 +93,10 @@ export class MidtransAdapter implements PaymentAdapter {
     const hashInput = `${orderId}${statusCode}${grossAmount}${this.serverKey}`
     const expectedHash = crypto.createHash("sha512").update(hashInput).digest("hex")
 
-    const isValid = signatureKey === expectedHash
+    let isValid = false
+    if (typeof signatureKey === "string" && signatureKey.length === expectedHash.length) {
+      isValid = crypto.timingSafeEqual(Buffer.from(signatureKey, "hex"), Buffer.from(expectedHash, "hex"))
+    }
 
     let mappedStatus: "paid" | "waiting" | "failed" | "expired" = "waiting"
 

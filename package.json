@@ -11,7 +11,7 @@
     "test:watch": "vitest",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:seed": "node --env-file=.env node_modules/tsx/dist/cli.mjs scripts/seed.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.3",

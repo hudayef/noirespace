@@ -1,3 +1,4 @@
+import "dotenv/config"
 import { db } from "../src/lib/db"
 import {
   roles,
@@ -12,7 +13,6 @@ import {
   categories,
   products,
   businessHours,
-  schedules,
   settings,
 } from "../src/lib/db/schema"
 import { hash } from "bcryptjs"
@@ -132,9 +132,9 @@ async function seed() {
     .insert(locations)
     .values({
       name: "Noire Space Creative Hub",
-      address: "Jl. Creative Tech No. 1, Jakarta Selatan",
-      phone: "+62 812-3456-7890",
-      email: "studio@noirespace.com",
+      address: "Jl. Puricitayam Permai, Rawapanjang, Citayam",
+      phone: "+62 882-1234-3431",
+      email: "noirespace.one@gmail.com",
       timezone: "Asia/Jakarta",
       status: "active",
     })

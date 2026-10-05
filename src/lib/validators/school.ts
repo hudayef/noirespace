@@ -6,11 +6,11 @@ export const schoolInquirySchema = z.object({
   email: z.string().email("Email tidak valid"),
   phone: z.string().min(8, "Nomor telepon tidak valid"),
   studentCount: z.number().int().positive().nullable().optional(),
-  programInterest: z.string().optional(),
+  programInterest: z.string().nullable().optional(),
   preferredDates: z.array(z.string()).default([]),
-  locationPreference: z.string().optional(),
-  requirements: z.string().optional(),
-  notes: z.string().optional(),
+  locationPreference: z.string().nullable().optional(),
+  requirements: z.string().nullable().optional(),
+  notes: z.string().nullable().optional(),
 })
 
 export type SchoolInquiryInput = z.infer<typeof schoolInquirySchema>

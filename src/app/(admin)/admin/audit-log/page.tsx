@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import { auditLogs, users } from "@/lib/db/schema"
 import { desc, eq } from "drizzle-orm"
 import { formatDate } from "@/lib/utils/format"
+import { ScrollText } from "lucide-react"
 
 export default async function AdminAuditLogPage() {
   await requireAdmin()
@@ -24,22 +25,33 @@ export default async function AdminAuditLogPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Audit Log Sistem</h1>
-        <p className="text-muted-foreground text-sm">Pencatatan riwayat aktivitas operasional penting oleh admin dan staff.</p>
+      <div className="space-y-1">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
+          <ScrollText className="h-6 w-6 text-amber-400" />
+          <span>Audit Log Sistem</span>
+        </h1>
+        <p className="text-neutral-400 text-xs sm:text-sm">
+          Pencatatan riwayat aktivitas operasional penting oleh admin dan staff untuk akuntabilitas.
+        </p>
       </div>
 
-      <div className="rounded-lg border divide-y bg-card font-mono text-xs">
+      <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06] bg-[#121217] font-mono text-xs">
         {logs.length === 0 ? (
-          <p className="p-8 text-center text-muted-foreground">Belum ada riwayat aktivitas tercatat.</p>
+          <p className="p-8 text-center text-neutral-500 font-sans">Belum ada riwayat aktivitas tercatat.</p>
         ) : (
           logs.map((l) => (
             <div key={l.id} className="p-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
-              <div>
-                <span className="font-bold text-foreground">[{l.action.toUpperCase()}]</span> {l.entityType} ({l.entityId})
-                <p className="text-muted-foreground">Aktor: {l.actorName ? `${l.actorName} (${l.actorEmail})` : "Sistem"}</p>
+              <div className="space-y-1">
+                <div>
+                  <span className="font-bold text-amber-300">[{l.action.toUpperCase()}]</span>{" "}
+                  <span className="text-white">{l.entityType}</span>{" "}
+                  <span className="text-neutral-500 font-mono text-[10px]">({l.entityId})</span>
+                </div>
+                <p className="text-neutral-400 font-sans text-xs">
+                  Aktor: <strong className="text-neutral-200">{l.actorName ? `${l.actorName} (${l.actorEmail})` : "Sistem"}</strong>
+                </p>
               </div>
-              <span className="text-muted-foreground">{formatDate(l.createdAt)}</span>
+              <span className="text-neutral-500 text-[11px] shrink-0">{formatDate(l.createdAt)}</span>
             </div>
           ))
         )}

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, integer, time, date, boolean } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp, uuid, integer, time, date, boolean, index } from "drizzle-orm/pg-core"
 import { locations, rooms, instructors } from "./resource"
 import { products } from "./catalog"
 
@@ -25,7 +25,10 @@ export const schedules = pgTable("schedules", {
   status: text("status", { enum: ["active", "inactive"] }).notNull().default("active"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
-})
+}, (table) => [
+  index("idx_schedules_product_day").on(table.productId, table.dayOfWeek),
+  index("idx_schedules_status").on(table.status),
+])
 
 export const blockedDates = pgTable("blocked_dates", {
   id: uuid("id").primaryKey().defaultRandom(),

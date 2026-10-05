@@ -10,9 +10,11 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json().catch(() => ({}))
-    const order = await createOrderFromCart(session.user.id, body.notes)
+    const notes = typeof body.notes === "string" ? body.notes.slice(0, 500) : undefined
+    const order = await createOrderFromCart(session.user.id, notes)
     return NextResponse.json({ success: true, order }, { status: 201 })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Gagal memproses pesanan" }, { status: 400 })
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Gagal memproses pesanan"
+    return NextResponse.json({ error: msg }, { status: 400 })
   }
 }

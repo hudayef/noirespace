@@ -17,7 +17,7 @@ export default auth((req) => {
   }
 
   if (isAdminRoute && isLoggedIn) {
-    const roles = (req.auth?.user as any)?.roles || []
+    const roles = (req.auth?.user as { roles?: string[] })?.roles || []
     const isAdmin = roles.some((r: string) => ["super_admin", "admin", "staff"].includes(r))
     if (!isAdmin) {
       return Response.redirect(new URL("/", nextUrl))

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, integer, jsonb } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp, uuid, integer, jsonb, index } from "drizzle-orm/pg-core"
 import { users } from "./auth"
 import { products } from "./catalog"
 
@@ -36,7 +36,10 @@ export const orders = pgTable("orders", {
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
-})
+}, (table) => [
+  index("idx_orders_customer_status").on(table.customerId, table.status),
+  index("idx_orders_created").on(table.createdAt),
+])
 
 export const orderItems = pgTable("order_items", {
   id: uuid("id").primaryKey().defaultRandom(),

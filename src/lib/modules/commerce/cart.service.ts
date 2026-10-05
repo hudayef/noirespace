@@ -33,10 +33,24 @@ export async function addItemToCart(params: {
   startTime?: string
   endTime?: string
   quantity?: number
-  price: number
+  price?: number
   options?: Record<string, unknown>
 }) {
-  const { cartId, productId, bookingDate, startTime, endTime, quantity = 1, price, options = {} } = params
+  const { cartId, productId, bookingDate, startTime, endTime, quantity = 1, options = {} } = params
+
+  const product = await db.query.products.findFirst({
+    where: eq(products.id, productId),
+  })
+
+  if (!product || product.status !== "published") {
+    throw new Error("Produk tidak ditemukan atau tidak aktif")
+  }
+
+  const safeQuantity = Math.max(1, Math.min(50, Math.floor(quantity)))
+  const safePrice = product.price
+
+  // Hold timer: refresh cart expiration on every item addition (15 minutes hold window)
+  await db.update(carts).set({ expiresAt: new Date(Date.now() + 15 * 60 * 1000) }).where(eq(carts.id, cartId))
 
   const [item] = await db
     .insert(cartItems)
@@ -46,8 +60,8 @@ export async function addItemToCart(params: {
       bookingDate,
       startTime,
       endTime,
-      quantity,
-      price,
+      quantity: safeQuantity,
+      price: safePrice,
       options,
     })
     .returning()
@@ -67,7 +81,7 @@ export async function getCartWithItems(customerId: string) {
       startTime: cartItems.startTime,
       endTime: cartItems.endTime,
       quantity: cartItems.quantity,
-      price: cartItems.price,
+      price: products.price,
       options: cartItems.options,
       productName: products.name,
       productType: products.type,
@@ -85,10 +99,21 @@ export async function getCartWithItems(customerId: string) {
   }
 }
 
-export async function removeCartItem(itemId: string) {
-  await db.delete(cartItems).where(eq(cartItems.id, itemId))
+export async function removeCartItem(itemId: string, customerId: string) {
+  const userCart = await db.query.carts.findFirst({
+    where: eq(carts.customerId, customerId),
+  })
+  if (!userCart) return
+
+  await db.delete(cartItems).where(
+    and(
+      eq(cartItems.id, itemId),
+      eq(cartItems.cartId, userCart.id)
+    )
+  )
 }
 
 export async function clearCart(cartId: string) {
   await db.delete(cartItems).where(eq(cartItems.cartId, cartId))
 }
+

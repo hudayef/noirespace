@@ -1,35 +1,18 @@
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import Link from "next/link"
-
-const accountNav = [
-  { label: "Dashboard", href: "/account" },
-  { label: "Booking", href: "/account/bookings" },
-  { label: "Pesanan", href: "/account/orders" },
-  { label: "Profil", href: "/account/profile" },
-]
+import { CustomerSidebarNav } from "@/components/layout/customer-sidebar"
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-[#09090b] text-neutral-100 selection:bg-white selection:text-black">
       <Header />
-      <main className="flex-1 container py-8">
-        <div className="flex flex-col md:flex-row gap-8">
-          <aside className="md:w-48 space-y-1">
-            {accountNav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </aside>
-          <div className="flex-1">{children}</div>
+      <main className="flex-1 container mx-auto px-6 lg:px-12 py-12">
+        <div className="flex flex-col md:flex-row gap-10">
+          <CustomerSidebarNav />
+          <div className="flex-1 min-w-0">{children}</div>
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

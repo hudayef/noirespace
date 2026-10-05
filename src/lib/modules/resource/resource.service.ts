@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { locations, rooms, resources, instructors } from "@/lib/db/schema"
+import { locations, rooms, resources, instructors, schedules, bookings, bookingResources, productResources } from "@/lib/db/schema"
 import { eq, desc } from "drizzle-orm"
 import type { LocationInput, RoomInput, ResourceInput, InstructorInput } from "@/lib/validators/resource"
 
@@ -130,4 +130,37 @@ export async function updateInstructor(id: string, data: Partial<InstructorInput
     .where(eq(instructors.id, id))
     .returning()
   return updated
+}
+
+export async function deleteRoom(id: string) {
+  const hasSchedules = await db.query.schedules.findFirst({ where: eq(schedules.roomId, id) })
+  if (hasSchedules) throw new Error("Tidak dapat menghapus ruangan: masih terpakai di jadwal")
+
+  const hasBookings = await db.query.bookings.findFirst({ where: eq(bookings.roomId, id) })
+  if (hasBookings) throw new Error("Tidak dapat menghapus ruangan: masih ada booking terkait")
+
+  const [deleted] = await db.delete(rooms).where(eq(rooms.id, id)).returning()
+  return deleted
+}
+
+export async function deleteResource(id: string) {
+  const hasBookings = await db.query.bookingResources.findFirst({ where: eq(bookingResources.resourceId, id) })
+  if (hasBookings) throw new Error("Tidak dapat menghapus peralatan: masih terpakai di booking")
+
+  const hasProduct = await db.query.productResources.findFirst({ where: eq(productResources.resourceId, id) })
+  if (hasProduct) throw new Error("Tidak dapat menghapus peralatan: masih terikat ke produk/layanan")
+
+  const [deleted] = await db.delete(resources).where(eq(resources.id, id)).returning()
+  return deleted
+}
+
+export async function deleteInstructor(id: string) {
+  const hasSchedules = await db.query.schedules.findFirst({ where: eq(schedules.instructorId, id) })
+  if (hasSchedules) throw new Error("Tidak dapat menghapus instruktur: masih terpakai di jadwal")
+
+  const hasBookings = await db.query.bookings.findFirst({ where: eq(bookings.instructorId, id) })
+  if (hasBookings) throw new Error("Tidak dapat menghapus instruktur: masih ada booking terkait")
+
+  const [deleted] = await db.delete(instructors).where(eq(instructors.id, id)).returning()
+  return deleted
 }

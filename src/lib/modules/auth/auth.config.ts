@@ -15,7 +15,7 @@ export const authConfig: NextAuthConfig = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
 
-        const email = credentials.email as string
+        const email = (credentials.email as string).toLowerCase().trim()
         const password = credentials.password as string
 
         const user = await db.query.users.findFirst({
@@ -46,14 +46,14 @@ export const authConfig: NextAuthConfig = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
-        token.roles = (user as any).roles
+        token.roles = (user as { roles?: string[] }).roles
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string
-        ;(session.user as any).roles = token.roles
+        ;(session.user as { roles?: string[] }).roles = token.roles as string[] | undefined
       }
       return session
     },

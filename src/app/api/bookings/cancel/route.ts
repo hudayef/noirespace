@@ -12,13 +12,18 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { bookingId, reason } = body
 
-    if (!bookingId) {
+    if (!bookingId || typeof bookingId !== "string") {
       return NextResponse.json({ error: "ID booking wajib disertakan" }, { status: 400 })
     }
 
-    const cancelled = await cancelBookingPrePayment(bookingId, session.user.id, reason)
+    const cancelled = await cancelBookingPrePayment(
+      bookingId,
+      session.user.id,
+      reason ? String(reason).slice(0, 500) : undefined
+    )
     return NextResponse.json({ success: true, booking: cancelled })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Gagal membatalkan booking" }, { status: 400 })
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Gagal membatalkan booking"
+    return NextResponse.json({ error: msg }, { status: 400 })
   }
 }

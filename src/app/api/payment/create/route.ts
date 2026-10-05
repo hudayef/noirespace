@@ -16,9 +16,10 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const { redirectUrl } = await createPaymentForOrder(orderId)
+    const { redirectUrl } = await createPaymentForOrder(orderId, session.user.id)
     return NextResponse.redirect(new URL(redirectUrl, req.url))
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Gagal membuat transaksi pembayaran" }, { status: 500 })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Gagal membuat transaksi pembayaran"
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

@@ -6,7 +6,8 @@ export async function POST(req: NextRequest) {
     const payload = await req.json()
     await handlePaymentWebhook(payload)
     return NextResponse.json({ status: "OK" }, { status: 200 })
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Webhook processing error" }, { status: 400 })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Webhook processing error"
+    return NextResponse.json({ error: message }, { status: 400 })
   }
 }
