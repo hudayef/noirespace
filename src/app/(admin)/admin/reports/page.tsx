@@ -27,7 +27,7 @@ export default async function AdminReportsPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <BarChart3 className="h-6 w-6 text-amber-400" />
+          <BarChart3 className="h-6 w-6 text-[#f3f1eb]" />
           <span>Laporan & Analisis Operasional</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -38,7 +38,7 @@ export default async function AdminReportsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="rounded-xl border border-white/[0.08] p-6 bg-[#121217] space-y-1">
           <p className="text-[10px] uppercase font-bold text-neutral-400 tracking-wider">Total Omset Sukses</p>
-          <p className="text-3xl font-extrabold text-emerald-400">{formatRupiah(totalRevenue)}</p>
+          <p className="text-3xl font-extrabold text-[#f3f1eb]">{formatRupiah(totalRevenue)}</p>
           <p className="text-xs text-neutral-500">{paidOrders.length} transaksi pembayaran selesai</p>
         </div>
         <div className="rounded-xl border border-white/[0.08] p-6 bg-[#121217] space-y-1">
@@ -64,7 +64,7 @@ export default async function AdminReportsPage() {
                   </span>
                   <p className="font-bold text-white mt-1">{item.productName}</p>
                 </div>
-                <div className="font-mono font-extrabold text-base text-amber-300">{item.totalBookings} sesi</div>
+                <div className="font-mono font-extrabold text-base text-[#e8e6df]">{item.totalBookings} sesi</div>
               </div>
             ))
           )}

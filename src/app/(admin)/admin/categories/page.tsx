@@ -37,7 +37,7 @@ export default async function AdminCategoriesPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <FolderOpen className="h-6 w-6 text-amber-400" />
+          <FolderOpen className="h-6 w-6 text-[#f3f1eb]" />
           <span>Kategori Produk & Layanan</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -64,7 +64,7 @@ export default async function AdminCategoriesPage() {
                       type="submit"
                       variant="ghost"
                       size="sm"
-                      className="text-neutral-500 hover:text-rose-400 h-8 px-2"
+                      className="text-neutral-500 hover:text-[#e88] h-8 px-2"
                       aria-label={`Hapus kategori ${c.name}`}
                     >
                       <Trash2 className="h-4 w-4" />

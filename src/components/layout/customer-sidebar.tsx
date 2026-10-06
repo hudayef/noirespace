@@ -15,9 +15,9 @@ export function CustomerSidebarNav() {
   const pathname = usePathname()
 
   return (
-    <aside className="md:w-60 space-y-1 shrink-0">
-      <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-500 font-bold px-3 pb-2">
-        Navigasi Akun
+    <aside className="md:w-56 space-y-1 shrink-0 font-mono text-xs">
+      <p className="text-[10px] uppercase tracking-[0.2em] text-[#6f6f6a] px-3 pb-3">
+        01 / NAVIGASI
       </p>
       {accountNav.map((item) => {
         const isActive =
@@ -29,14 +29,14 @@ export function CustomerSidebarNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all duration-150 ${
+            className={`flex items-center gap-2.5 px-3 py-2.5 transition-colors border-l-2 ${
               isActive
-                ? "bg-[#18181b] text-white border border-white/[0.12] shadow-[0_0_15px_rgba(255,255,255,0.03)]"
-                : "text-neutral-400 hover:bg-[#18181b]/60 hover:text-white border border-transparent"
+                ? "bg-[#141414] text-[#f3f1eb] border-[#f3f1eb] font-medium"
+                : "text-[#6f6f6a] hover:bg-[#111111] hover:text-[#f3f1eb] border-transparent"
             }`}
           >
-            <item.icon className={`h-4 w-4 transition-colors ${isActive ? "text-amber-400" : "text-neutral-500"}`} />
-            <span>{item.label}</span>
+            <item.icon className="h-3.5 w-3.5 shrink-0" />
+            <span className="uppercase tracking-wider text-[11px]">{item.label}</span>
           </Link>
         )
       })}

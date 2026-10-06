@@ -52,104 +52,108 @@ function RegisterForm() {
   }
 
   return (
-    <div className="rounded-2xl border border-white/[0.08] bg-[#121217] p-8 space-y-6 shadow-2xl">
+    <div className="rounded-xl border border-[#f3f1eb]/[0.1] bg-[#111111] p-8 sm:p-10 space-y-6">
       <div className="text-center space-y-2">
-        <Link href="/" className="inline-block text-xl font-extrabold tracking-[0.25em] text-white">
-          NOIRE<span className="text-white/40 font-light">SPACE</span>
+        <Link href="/" className="block font-display text-2xl tracking-[0.16em] text-[#f3f1eb]">
+          NOIRE <span className="text-[#6f6f6a] font-light">SPACE</span>
         </Link>
-        <p className="text-xs text-neutral-400">Buat akun untuk melakukan booking studio & pendaftaran program</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#6f6f6a]">REGISTRASI AKUN</p>
+        <p className="text-[11px] text-[#6f6f6a]">Daftar untuk reservasi studio dan program edukasi</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3 text-xs text-destructive">
-            {error}
+          <div className="rounded-lg bg-[#3a1111] border border-[#6b1e1e] p-3 text-[11px] text-[#c96] flex items-center gap-2">
+            <span>{error}</span>
           </div>
         )}
 
         <div className="space-y-1.5">
-          <Label htmlFor="reg-name" className="text-xs text-neutral-300">Nama Lengkap</Label>
+          <Label htmlFor="reg-name" className="text-[11px] text-[#e8e6df]">NAMA LENGKAP</Label>
           <div className="relative">
-            <User className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+            <User className="absolute left-3 top-2.5 h-3.5 w-3.5 text-[#6f6f6a]" />
             <Input
               id="reg-name"
               name="name"
               required
               placeholder="Nama lengkap Anda"
-              className="bg-[#09090b] pl-9 text-xs h-10 border-white/[0.12]"
+              className="bg-[#0a0a0a] pl-9 text-xs h-10 border-[#f3f1eb]/[0.12] text-[#f3f1eb] placeholder:text-[#6f6f6a]/40"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="reg-email" className="text-xs text-neutral-300">Email Aktif</Label>
+          <Label htmlFor="reg-email" className="text-[11px] text-[#e8e6df]">EMAIL AKTIF</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+            <Mail className="absolute left-3 top-2.5 h-3.5 w-3.5 text-[#6f6f6a]" />
             <Input
               id="reg-email"
               name="email"
               type="email"
               required
               placeholder="nama@email.com"
-              className="bg-[#09090b] pl-9 text-xs h-10 border-white/[0.12]"
+              className="bg-[#0a0a0a] pl-9 text-xs h-10 border-[#f3f1eb]/[0.12] text-[#f3f1eb] placeholder:text-[#6f6f6a]/40"
             />
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="reg-phone" className="text-xs text-neutral-300">Nomor Telepon / WhatsApp</Label>
+          <Label htmlFor="reg-phone" className="text-[11px] text-[#e8e6df]">NOMOR TELEPON / WA</Label>
           <div className="relative">
-            <Phone className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+            <Phone className="absolute left-3 top-2.5 h-3.5 w-3.5 text-[#6f6f6a]" />
             <Input
               id="reg-phone"
               name="phone"
               type="tel"
               placeholder="08xxxxxxxxxx"
-              className="bg-[#09090b] pl-9 text-xs h-10 border-white/[0.12]"
+              className="bg-[#0a0a0a] pl-9 text-xs h-10 border-[#f3f1eb]/[0.12] text-[#f3f1eb] placeholder:text-[#6f6f6a]/40"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label htmlFor="reg-pass" className="text-xs text-neutral-300">Kata Sandi</Label>
+            <Label htmlFor="reg-pass" className="text-[11px] text-[#e8e6df]">KATA SANDI</Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+              <Lock className="absolute left-3 top-2.5 h-3.5 w-3.5 text-[#6f6f6a]" />
               <Input
                 id="reg-pass"
                 name="password"
                 type="password"
                 required
                 placeholder="Min 8 karakter"
-                className="bg-[#09090b] pl-9 text-xs h-10 border-white/[0.12]"
+                className="bg-[#0a0a0a] pl-9 text-xs h-10 border-[#f3f1eb]/[0.12] text-[#f3f1eb] placeholder:text-[#6f6f6a]/40"
               />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="reg-confirm" className="text-xs text-neutral-300">Ulangi Sandi</Label>
+            <Label htmlFor="reg-confirm" className="text-[11px] text-[#e8e6df]">ULANGI SANDI</Label>
             <Input
               id="reg-confirm"
               name="confirmPassword"
               type="password"
               required
               placeholder="Ketik ulang"
-              className="bg-[#09090b] text-xs h-10 border-white/[0.12]"
+              className="bg-[#0a0a0a] text-xs h-10 border-[#f3f1eb]/[0.12] text-[#f3f1eb] placeholder:text-[#6f6f6a]/40"
             />
           </div>
         </div>
 
         <Button
           type="submit"
-          className="w-full h-10 text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200 mt-2"
+          className="w-full h-10 text-[10px] uppercase tracking-[0.2em] font-medium bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] rounded-none transition-colors mt-2"
           disabled={loading}
         >
-          {loading ? "Mendaftarkan..." : "Daftar Akun Baru"}
+          {loading ? "MENDAFTARKAN..." : "DAFTAR AKUN"}
         </Button>
       </form>
 
-      <div className="text-center text-xs text-neutral-400 pt-2 border-t border-white/[0.06]">
+      <div className="text-center text-[11px] text-[#6f6f6a] pt-2 border-t border-[#f3f1eb]/[0.06]">
         Sudah memiliki akun?{" "}
-        <Link href={`/login${redirectUrl !== "/" ? `?redirect=${encodeURIComponent(redirectUrl)}` : ""}`} className="text-white font-semibold underline hover:text-amber-300">
+        <Link
+          href={`/login${redirectUrl !== "/" ? `?redirect=${encodeURIComponent(redirectUrl)}` : ""}`}
+          className="text-[#f3f1eb] font-medium hover:underline"
+        >
           Masuk ke akun
         </Link>
       </div>

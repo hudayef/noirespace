@@ -16,7 +16,7 @@ export default async function AdminCustomersPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <Users className="h-6 w-6 text-amber-400" />
+          <Users className="h-6 w-6 text-[#f3f1eb]" />
           <span>Data Pelanggan & Akun</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -52,9 +52,9 @@ export default async function AdminCustomersPage() {
                       href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 text-xs font-semibold transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none border border-[#f3f1eb]/[0.15] bg-[#141414] text-[#e8e6df] hover:bg-[#171717] hover:text-[#f3f1eb] font-mono text-xs transition-colors"
                     >
-                      <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
+                      <MessageSquare className="h-3.5 w-3.5 text-[#f3f1eb]" />
                       <span>WhatsApp</span>
                     </a>
                   )}

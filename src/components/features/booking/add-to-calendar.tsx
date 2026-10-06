@@ -42,26 +42,26 @@ export function AddToCalendar({
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
-      <span className="text-xs text-neutral-400 flex items-center gap-1.5 font-medium">
-        <Calendar className="h-3.5 w-3.5 text-amber-400" />
+      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6f6f6a] flex items-center gap-1.5">
+        <Calendar className="h-3 w-3 text-[#6f6f6a]" />
         Simpan ke Kalender:
       </span>
       <a
         href={googleUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md border border-white/[0.12] bg-white/[0.04] text-neutral-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+        className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] font-medium px-2 py-1 border border-[#f3f1eb]/[0.12] bg-[#111111] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] hover:border-[#f3f1eb]/[0.3] transition-colors"
       >
         <span>Google Calendar</span>
-        <ExternalLink className="h-3 w-3" />
+        <ExternalLink className="h-2.5 w-2.5" />
       </a>
       <a
         href={icsDataUri}
         download={`booking-${date}.ics`}
-        className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-md border border-white/[0.12] bg-white/[0.04] text-neutral-200 hover:text-white hover:bg-white/[0.08] transition-colors"
+        className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.14em] font-medium px-2 py-1 border border-[#f3f1eb]/[0.12] bg-[#111111] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] hover:border-[#f3f1eb]/[0.3] transition-colors"
       >
         <span>iCal / Apple / Outlook</span>
-        <Download className="h-3 w-3" />
+        <Download className="h-2.5 w-2.5" />
       </a>
     </div>
   )

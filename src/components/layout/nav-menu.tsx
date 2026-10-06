@@ -32,7 +32,7 @@ export function NavMenu({ user }: NavMenuProps) {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-8 text-[13px] uppercase font-semibold tracking-wider text-neutral-400">
+      <nav className="hidden md:flex items-center gap-7 font-mono text-[11px] uppercase tracking-[0.16em] text-[#6f6f6a]">
         {navItems.map((item) => {
           const isActive = pathname.startsWith(item.href)
           return (
@@ -40,8 +40,8 @@ export function NavMenu({ user }: NavMenuProps) {
               key={item.href}
               href={item.href}
               className={cn(
-                "transition-colors hover:text-white relative py-1",
-                isActive && "text-white after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-amber-400 after:shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                "transition-colors hover:text-[#f3f1eb] relative py-1",
+                isActive && "text-[#f3f1eb] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-[#f3f1eb]"
               )}
             >
               {item.label}
@@ -51,16 +51,16 @@ export function NavMenu({ user }: NavMenuProps) {
       </nav>
 
       {/* Desktop Auth CTA */}
-      <div className="hidden md:flex items-center gap-4">
+      <div className="hidden md:flex items-center gap-3">
         {user ? (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link href="/account">
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-xs uppercase tracking-wider text-neutral-300 hover:text-white hover:bg-white/[0.06] border border-white/[0.08]"
+                className="font-mono text-[11px] uppercase tracking-wider text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#111111] border border-[#f3f1eb]/[0.1] rounded-none px-3 h-8"
               >
-                {user.name || "Akun Saya"}
+                {user.name || "Akun"}
               </Button>
             </Link>
             {isAdmin && (
@@ -68,7 +68,7 @@ export function NavMenu({ user }: NavMenuProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-xs uppercase tracking-wider border-amber-500/30 text-amber-300 hover:bg-amber-500/10"
+                  className="font-mono text-[11px] uppercase tracking-wider border-[#f3f1eb]/[0.2] text-[#f3f1eb] hover:bg-[#171717] rounded-none px-3 h-8"
                 >
                   Admin
                 </Button>
@@ -79,7 +79,7 @@ export function NavMenu({ user }: NavMenuProps) {
           <Link href="/login">
             <Button
               size="sm"
-              className="text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200 px-5 py-2 shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+              className="font-mono text-[11px] uppercase tracking-[0.16em] font-medium bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] rounded-none px-4 h-8 transition-colors"
             >
               Masuk
             </Button>
@@ -88,9 +88,12 @@ export function NavMenu({ user }: NavMenuProps) {
       </div>
 
       {/* Mobile Hamburger Button */}
-      <div className="flex md:hidden items-center gap-3">
+      <div className="flex md:hidden items-center gap-2">
         {user && (
-          <Link href="/account" className="text-xs font-bold text-neutral-300 border border-white/10 px-2.5 py-1.5 rounded-md">
+          <Link
+            href="/account"
+            className="font-mono text-[10px] uppercase tracking-wider text-[#f3f1eb] border border-[#f3f1eb]/[0.14] px-2.5 py-1"
+          >
             Akun
           </Link>
         )}
@@ -98,16 +101,16 @@ export function NavMenu({ user }: NavMenuProps) {
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Tutup menu" : "Buka menu navigasi"}
-          className="p-2 rounded-lg border border-white/10 text-neutral-300 hover:text-white hover:bg-white/5 transition-colors"
+          className="p-2 border border-[#f3f1eb]/[0.1] text-[#f3f1eb] hover:bg-[#111111] transition-colors"
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </button>
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-x-0 top-20 bg-[#09090b]/95 backdrop-blur-2xl border-b border-white/[0.1] px-6 py-6 space-y-5 z-40 animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col gap-3">
+        <div className="md:hidden fixed inset-x-0 top-16 sm:top-20 bg-[#0a0a0a]/98 border-b border-[#f3f1eb]/[0.1] px-6 py-6 space-y-5 z-40 animate-in fade-in slide-in-from-top-2 duration-150">
+          <nav className="flex flex-col divide-y divide-[#f3f1eb]/[0.06]">
             {navItems.map((item) => {
               const isActive = pathname.startsWith(item.href)
               return (
@@ -116,10 +119,8 @@ export function NavMenu({ user }: NavMenuProps) {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "text-base uppercase tracking-wider font-semibold py-2.5 px-3 rounded-lg transition-colors",
-                    isActive
-                      ? "bg-white/10 text-white font-bold"
-                      : "text-neutral-400 hover:text-white hover:bg-white/5"
+                    "font-mono text-xs uppercase tracking-[0.18em] py-3 transition-colors",
+                    isActive ? "text-[#f3f1eb] font-semibold" : "text-[#6f6f6a] hover:text-[#f3f1eb]"
                   )}
                 >
                   {item.label}
@@ -128,17 +129,17 @@ export function NavMenu({ user }: NavMenuProps) {
             })}
           </nav>
 
-          <div className="pt-4 border-t border-white/[0.08] flex flex-col gap-3">
+          <div className="pt-4 border-t border-[#f3f1eb]/[0.08] flex flex-col gap-2">
             {user ? (
               <>
                 <Link href="/account" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full justify-start text-xs uppercase tracking-wider">
-                    Dashboard Akun: {user.name}
+                  <Button variant="outline" className="w-full justify-start font-mono text-[11px] uppercase tracking-wider rounded-none border-[#f3f1eb]/[0.15]">
+                    Akun: {user.name}
                   </Button>
                 </Link>
                 {isAdmin && (
                   <Link href="/admin" onClick={() => setMobileOpen(false)}>
-                    <Button variant="outline" className="w-full justify-start text-xs uppercase tracking-wider border-amber-500/30 text-amber-300">
+                    <Button variant="outline" className="w-full justify-start font-mono text-[11px] uppercase tracking-wider rounded-none border-[#f3f1eb]/[0.3] text-[#f3f1eb]">
                       Console Admin
                     </Button>
                   </Link>
@@ -146,7 +147,7 @@ export function NavMenu({ user }: NavMenuProps) {
               </>
             ) : (
               <Link href="/login" onClick={() => setMobileOpen(false)}>
-                <Button className="w-full text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200">
+                <Button className="w-full font-mono text-[11px] uppercase tracking-[0.18em] rounded-none bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df]">
                   Masuk ke Akun
                 </Button>
               </Link>

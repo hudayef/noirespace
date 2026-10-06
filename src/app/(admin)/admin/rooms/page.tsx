@@ -59,7 +59,7 @@ export default async function AdminRoomsPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <DoorOpen className="h-6 w-6 text-amber-400" />
+          <DoorOpen className="h-6 w-6 text-[#f3f1eb]" />
           <span>Manajemen Ruangan Studio</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -90,7 +90,7 @@ export default async function AdminRoomsPage() {
                         name="status"
                         defaultValue={r.status}
                         aria-label={`Ubah status ruangan ${r.name}`}
-                        className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
+                        className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]"
                       >
                         <option value="active">Active</option>
                         <option value="maintenance">Maintenance</option>
@@ -104,7 +104,7 @@ export default async function AdminRoomsPage() {
                         type="submit"
                         variant="ghost"
                         size="sm"
-                        className="text-neutral-500 hover:text-rose-400 h-8 px-2"
+                        className="text-neutral-500 hover:text-[#e88] h-8 px-2"
                         aria-label={`Hapus ruangan ${r.name}`}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -123,7 +123,7 @@ export default async function AdminRoomsPage() {
             <form action={handleCreate} className="space-y-3">
               <div className="space-y-1">
                 <Label className="text-xs text-neutral-300">Lokasi Studio</Label>
-                <select name="locationId" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400" required>
+                <select name="locationId" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]" required>
                   {locations.map((loc) => (
                     <option key={loc.id} value={loc.id}>{loc.name}</option>
                   ))}

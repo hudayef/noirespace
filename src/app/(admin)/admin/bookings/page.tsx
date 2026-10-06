@@ -6,16 +6,8 @@ import { bookings, products, users } from "@/lib/db/schema"
 import { desc, eq } from "drizzle-orm"
 import { formatTime } from "@/lib/utils/format"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Save, MessageSquare, FileText } from "lucide-react"
-
-const statusColors: Record<string, string> = {
-  pending: "bg-amber-500/10 text-amber-400 border-amber-500/30",
-  confirmed: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
-  in_progress: "bg-blue-500/10 text-blue-400 border-blue-500/30",
-  completed: "bg-neutral-500/10 text-neutral-300 border-neutral-500/30",
-  cancelled: "bg-rose-500/10 text-rose-400 border-rose-500/30",
-  no_show: "bg-purple-500/10 text-purple-400 border-purple-500/30",
-}
+import { SectionLabel, StatusBadge } from "@/components/editorial"
+import { Save, MessageSquare, FileText } from "lucide-react"
 
 export default async function AdminBookingsPage() {
   await requireAdmin()
@@ -54,18 +46,18 @@ export default async function AdminBookingsPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <BookOpen className="h-6 w-6 text-amber-400" />
-          <span>Seluruh Booking Sesi</span>
+        <SectionLabel number="01" label="MANAJEMEN OPERASIONAL" />
+        <h1 className="font-display text-2xl sm:text-3xl text-[#f3f1eb] font-normal">
+          Seluruh Booking Sesi
         </h1>
-        <p className="text-neutral-400 text-xs sm:text-sm">
-          Monitor dan ubah status booking, konfirmasi kehadiran, dan hubungi pelanggan via WhatsApp.
+        <p className="text-xs sm:text-sm text-[#6f6f6a]">
+          Monitor status booking, konfirmasi jadwal kehadiran, dan hubungi pelanggan via WhatsApp.
         </p>
       </div>
 
-      <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06] bg-[#121217]">
+      <div className="border border-[#f3f1eb]/[0.1] divide-y divide-[#f3f1eb]/[0.08] bg-[#111111]">
         {allBookings.length === 0 ? (
-          <p className="p-8 text-center text-xs text-neutral-400">Belum ada data booking.</p>
+          <p className="p-8 text-center font-mono text-xs text-[#6f6f6a]">Belum ada data booking.</p>
         ) : (
           allBookings.map((b) => {
             const cleanPhone = (b.customerPhone || "").replace(/[^0-9]/g, "")
@@ -79,20 +71,18 @@ export default async function AdminBookingsPage() {
 
             return (
               <div key={b.id} className="p-5 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 font-mono">
                   <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs font-bold text-white">{b.bookingNumber}</span>
-                    <span className={`text-[10px] uppercase font-bold px-2.5 py-0.5 rounded-full border ${statusColors[b.status] || ""}`}>
-                      {b.status.replace("_", " ")}
-                    </span>
+                    <span className="text-xs font-bold text-[#f3f1eb]">{b.bookingNumber}</span>
+                    <StatusBadge status={b.status} />
                   </div>
-                  <p className="font-bold text-sm text-white">{b.productName}</p>
-                  <p className="text-xs text-neutral-400">
+                  <p className="font-sans font-medium text-sm text-[#f3f1eb]">{b.productName}</p>
+                  <p className="text-xs text-[#6f6f6a]">
                     {b.customerName} ({b.customerEmail}) {b.customerPhone ? `• ${b.customerPhone}` : ""} • {b.participants} orang
                   </p>
-                  <p className="text-xs text-neutral-500">
-                    Jadwal: <span className="text-neutral-300">{b.bookingDate}</span> (
-                    <span className="text-amber-300">{formatTime(b.startTime)} - {formatTime(b.endTime)} WIB</span>)
+                  <p className="text-xs text-[#6f6f6a]">
+                    Jadwal: <span className="text-[#e8e6df]">{b.bookingDate}</span> (
+                    <span className="text-[#f3f1eb] font-medium">{formatTime(b.startTime)} - {formatTime(b.endTime)} WIB</span>)
                   </p>
                 </div>
 
@@ -102,18 +92,18 @@ export default async function AdminBookingsPage() {
                       href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 text-xs font-semibold transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 border border-[#f3f1eb]/[0.15] bg-[#141414] text-[#e8e6df] hover:text-[#f3f1eb] font-mono text-xs transition-colors"
                       title="Hubungi via WhatsApp"
                     >
-                      <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
+                      <MessageSquare className="h-3 w-3 text-[#6f6f6a]" />
                       <span>WA</span>
                     </a>
                   )}
 
                   {b.orderId && (
                     <Link href={`/account/orders/${b.orderId}/invoice`} target="_blank">
-                      <Button variant="outline" size="sm" className="h-8 text-xs border-white/[0.12] text-neutral-300 hover:text-white flex items-center gap-1">
-                        <FileText className="h-3.5 w-3.5 text-amber-400" />
+                      <Button variant="outline" size="sm" className="h-8 font-mono text-xs border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] rounded-none flex items-center gap-1">
+                        <FileText className="h-3 w-3 text-[#6f6f6a]" />
                         <span>Faktur</span>
                       </Button>
                     </Link>
@@ -125,7 +115,7 @@ export default async function AdminBookingsPage() {
                       name="status"
                       defaultValue={b.status}
                       aria-label={`Ubah status booking ${b.bookingNumber}`}
-                      className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
+                      className="border border-[#f3f1eb]/[0.15] bg-[#0a0a0a] px-2.5 py-1.5 font-mono text-xs text-[#f3f1eb] focus:outline-none focus:border-[#f3f1eb]/[0.4]"
                     >
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
@@ -138,7 +128,7 @@ export default async function AdminBookingsPage() {
                       type="submit"
                       size="xs"
                       variant="outline"
-                      className="text-[11px] font-semibold border-white/20 text-neutral-300 hover:bg-white/10 flex items-center gap-1"
+                      className="font-mono text-[10px] uppercase border-[#f3f1eb]/[0.2] text-[#f3f1eb] hover:bg-[#171717] rounded-none flex items-center gap-1 h-8"
                     >
                       <Save className="h-3 w-3" />
                       <span>Simpan</span>

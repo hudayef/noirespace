@@ -107,12 +107,12 @@ export function BookingCalendar({ productId, productPrice, productName }: Bookin
   return (
     <div className="space-y-8">
       {/* Step 1: Date selection */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-4">
-        <div className="flex items-center gap-2.5 text-sm font-bold text-white">
-          <Calendar className="h-4 w-4 text-amber-400" />
-          <span>1. Pilih Tanggal Kunjungan</span>
+      <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 space-y-4 rounded-none">
+        <div className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#f3f1eb]">
+          <Calendar className="h-3.5 w-3.5 text-[#e8e6df]" />
+          <span>01 / TANGGAL KUNJUNGAN</span>
         </div>
-        <p className="text-xs text-neutral-400">
+        <p className="font-mono text-[10px] text-[#6f6f6a]">
           Booking dapat dilakukan minimal H+1 hingga 30 hari ke depan.
         </p>
         <input
@@ -122,41 +122,41 @@ export function BookingCalendar({ productId, productPrice, productName }: Bookin
           value={selectedDate}
           onChange={(e) => handleDateChange(e.target.value)}
           aria-label="Pilih tanggal kunjungan"
-          className="w-full rounded-lg border border-white/[0.12] bg-[#09090b] px-4 py-3 text-sm font-medium text-white focus:outline-none focus:border-amber-400/60 transition-colors"
+          className="w-full border border-[#f3f1eb]/[0.12] bg-[#0a0a0a] px-4 py-3 text-sm font-mono text-[13px] text-[#f3f1eb] focus:outline-none focus:border-[#f3f1eb]/[0.5] transition-colors placeholder:text-[#6f6f6a]/40"
         />
       </div>
 
       {/* Step 2: Time Slot selection */}
       {selectedDate && (
-        <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-4 animate-in fade-in duration-200">
+        <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 space-y-4 animate-in fade-in duration-150 rounded-none">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5 text-sm font-bold text-white">
-              <Clock className="h-4 w-4 text-amber-400" />
-              <span>2. Pilih Slot Jam</span>
+            <div className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#f3f1eb]">
+              <Clock className="h-3.5 w-3.5 text-[#e8e6df]" />
+              <span>02 / SLOT JAM</span>
             </div>
             {selectedSlot && (
-              <span className="text-xs text-amber-400 font-medium flex items-center gap-1">
-                <CheckCircle2 className="h-3.5 w-3.5" /> Slot terpilih
+              <span className="font-mono text-[10px] text-[#f3f1eb] flex items-center gap-1">
+                <CheckCircle2 className="h-3.5 w-3.5" /> SLOT TERPILIH
               </span>
             )}
           </div>
 
           {loading && (
-            <div className="py-8 text-center text-sm text-neutral-400 animate-pulse">
-              Memeriksa ketersediaan ruangan & instruktur...
+            <div className="py-8 text-center font-mono text-[11px] text-[#6f6f6a] animate-pulse">
+              Memeriksa ketersediaan...
             </div>
           )}
 
           {error && (
-            <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3 text-xs text-destructive flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 shrink-0" />
+            <div className="rounded-lg bg-[#3a1111] border border-[#6b1e1e] p-3 font-mono text-[10px] text-[#c96] flex items-center gap-2">
+              <AlertCircle className="h-3.5 w-3.5 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
           {!loading && slots.length === 0 && !error && (
-            <div className="rounded-lg border border-dashed border-white/10 p-6 text-center text-xs text-neutral-400">
-              Tidak ada slot tersedia pada tanggal ini (hari libur atau slot sudah penuh). Silakan pilih tanggal lain.
+            <div className="border border-dashed border-[#f3f1eb]/[0.1] p-6 text-center font-mono text-[10px] text-[#6f6f6a]">
+              Tidak ada slot tersedia pada tanggal ini. Silakan pilih tanggal lain.
             </div>
           )}
 
@@ -169,19 +169,19 @@ export function BookingCalendar({ productId, productPrice, productName }: Bookin
                   type="button"
                   disabled={!s.available}
                   onClick={() => setSelectedSlot(s)}
-                  className={`p-3.5 rounded-xl border text-left transition-all relative ${
+                  className={`p-4 border text-left transition-all relative ${
                     !s.available
-                      ? "opacity-35 cursor-not-allowed bg-black/40 border-white/[0.04]"
+                      ? "opacity-35 cursor-not-allowed bg-[#0a0a0a] border-[#f3f1eb]/[0.04]"
                       : isSelected
-                      ? "border-amber-400 bg-amber-400/10 text-white shadow-[0_0_15px_rgba(251,191,36,0.15)] ring-1 ring-amber-400"
-                      : "border-white/[0.08] bg-[#09090b] text-neutral-200 hover:border-white/30 hover:bg-white/[0.02]"
+                      ? "border-[#f3f1eb] bg-[#141414] text-[#f3f1eb] ring-1 ring-[#f3f1eb]"
+                      : "border-[#f3f1eb]/[0.08] bg-[#0a0a0a] text-[#e8e6df] hover:border-[#f3f1eb]/[0.3] hover:bg-[#111111]"
                   }`}
                 >
                   <p className="font-bold text-sm tracking-tight">
                     {formatTime(s.startTime)} - {formatTime(s.endTime)}
                   </p>
-                  <p className="text-[11px] text-neutral-400 mt-1">
-                    {s.available ? `Tersisa: ${s.remainingCapacity} kuota` : "Penuh"}
+                  <p className="font-mono text-[10px] text-[#6f6f6a] mt-1">
+                    {s.available ? `KUOTA: ${s.remainingCapacity}` : "PENUH"}
                   </p>
                 </button>
               )
@@ -192,20 +192,22 @@ export function BookingCalendar({ productId, productPrice, productName }: Bookin
 
       {/* Step 3: Selection summary & CTA */}
       {selectedSlot && (
-        <div className="rounded-xl border border-amber-400/30 bg-gradient-to-b from-[#181613] to-[#121217] p-6 space-y-5 animate-in fade-in duration-200">
-          <h3 className="font-bold text-base text-white">Ringkasan Sesi Anda</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs border-y border-white/[0.08] py-4">
+        <div className="border border-[#f3f1eb]/[0.2] bg-[#111111] p-6 space-y-5 animate-in fade-in duration-150 rounded-none">
+          <h3 className="font-mono text-xs uppercase tracking-[0.16em] text-[#f3f1eb]">
+            03 / RINGKASAN SESI
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-[11px] border-y border-[#f3f1eb]/[0.08] py-4">
             <div>
-              <span className="text-neutral-500 uppercase tracking-wider block">Layanan</span>
-              <strong className="text-white text-sm">{productName}</strong>
+              <span className="text-[#6f6f6a] uppercase tracking-wider block">LAYANAN</span>
+              <strong className="text-[#f3f1eb] text-sm">{productName}</strong>
             </div>
             <div>
-              <span className="text-neutral-500 uppercase tracking-wider block">Tanggal</span>
-              <strong className="text-white text-sm">{selectedDate}</strong>
+              <span className="text-[#6f6f6a] uppercase tracking-wider block">TANGGAL</span>
+              <strong className="text-[#f3f1eb] text-sm">{selectedDate}</strong>
             </div>
             <div>
-              <span className="text-neutral-500 uppercase tracking-wider block">Jam Sesi</span>
-              <strong className="text-amber-300 text-sm">
+              <span className="text-[#6f6f6a] uppercase tracking-wider block">JAM SESI</span>
+              <strong className="text-[#f3f1eb] text-sm">
                 {formatTime(selectedSlot.startTime)} - {formatTime(selectedSlot.endTime)} WIB
               </strong>
             </div>
@@ -213,15 +215,15 @@ export function BookingCalendar({ productId, productPrice, productName }: Bookin
 
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-[10px] uppercase tracking-wider text-neutral-400 block">Total Biaya</span>
-              <span className="font-extrabold text-xl text-white">{formatRupiah(productPrice)}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6f6f6a] block">TOTAL BIAYA</span>
+              <span className="font-extrabold text-xl text-[#f3f1eb]">{formatRupiah(productPrice)}</span>
             </div>
             <Button
               onClick={handleAddToCart}
               disabled={addingToCart}
-              className="h-11 px-6 text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200 transition-all flex items-center gap-2"
+              className="h-11 px-6 font-mono text-[11px] uppercase tracking-[0.18em] font-medium bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] rounded-none transition-colors flex items-center gap-2"
             >
-              <span>{addingToCart ? "Memproses..." : "Lanjut ke Pembayaran"}</span>
+              <span>{addingToCart ? "MEMPROSES..." : "LANJUT KE PEMBAYARAN"}</span>
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>

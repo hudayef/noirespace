@@ -58,7 +58,7 @@ export default async function AdminResourcesPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <Wrench className="h-6 w-6 text-amber-400" />
+          <Wrench className="h-6 w-6 text-[#f3f1eb]" />
           <span>Manajemen Alat & Peralatan</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -75,7 +75,7 @@ export default async function AdminResourcesPage() {
               resourceList.map((res) => (
                 <div key={res.id} className="p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                   <div className="space-y-1">
-                    <span className="text-[10px] uppercase font-bold text-amber-400/90">{res.type}</span>
+                    <span className="text-[10px] uppercase font-bold text-[#f3f1eb]/90">{res.type}</span>
                     <p className="font-bold text-sm text-white">{res.name}</p>
                     <p className="text-xs text-neutral-400">Jumlah Stok: {res.quantity} unit</p>
                   </div>
@@ -87,7 +87,7 @@ export default async function AdminResourcesPage() {
                         name="status"
                         defaultValue={res.status}
                         aria-label={`Ubah status resource ${res.name}`}
-                        className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
+                        className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]"
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -100,7 +100,7 @@ export default async function AdminResourcesPage() {
                         type="submit"
                         variant="ghost"
                         size="sm"
-                        className="text-neutral-500 hover:text-rose-400 h-8 px-2"
+                        className="text-neutral-500 hover:text-[#e88] h-8 px-2"
                         aria-label={`Hapus alat ${res.name}`}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -119,7 +119,7 @@ export default async function AdminResourcesPage() {
             <form action={handleCreate} className="space-y-3">
               <div className="space-y-1">
                 <Label className="text-xs text-neutral-300">Lokasi Hub</Label>
-                <select name="locationId" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400" required>
+                <select name="locationId" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]" required>
                   {locations.map((loc) => (
                     <option key={loc.id} value={loc.id}>{loc.name}</option>
                   ))}
@@ -131,7 +131,7 @@ export default async function AdminResourcesPage() {
               </div>
               <div className="space-y-1">
                 <Label className="text-xs text-neutral-300">Kategori / Tipe</Label>
-                <select name="type" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                <select name="type" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]">
                   <option value="lighting">Lighting</option>
                   <option value="camera">Kamera</option>
                   <option value="equipment">Aksesoris / Stand</option>

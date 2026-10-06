@@ -27,7 +27,7 @@ export default async function AdminPaymentsPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <CreditCard className="h-6 w-6 text-amber-400" />
+          <CreditCard className="h-6 w-6 text-[#f3f1eb]" />
           <span>Log Transaksi Pembayaran</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -47,10 +47,10 @@ export default async function AdminPaymentsPage() {
                   <span
                     className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${
                       p.status === "paid"
-                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                        ? "bg-[#141414] text-[#f3f1eb] border-[#f3f1eb]/[0.3]"
                         : p.status === "failed" || p.status === "expired"
-                        ? "bg-rose-500/10 text-rose-400 border-rose-500/30"
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                        ? "bg-[#1f0d0d] text-[#e88] border-[#6b1e1e]"
+                        : "bg-[#111111] text-[#e8e6df] border-[#6f6f6a]/[0.4]"
                     }`}
                   >
                     {p.status}
@@ -59,12 +59,12 @@ export default async function AdminPaymentsPage() {
                 <p className="text-xs text-neutral-400">
                   Pesanan: <span className="font-mono font-bold text-white">#{p.orderNumber}</span> • Gateway: {p.gateway} • Waktu: {formatDate(p.createdAt)}
                 </p>
-                <p className="font-extrabold text-base text-amber-300">{formatRupiah(p.amount)}</p>
+                <p className="font-extrabold text-base text-[#e8e6df]">{formatRupiah(p.amount)}</p>
               </div>
 
               <div className="text-right text-xs">
                 {p.paidAt ? (
-                  <span className="text-emerald-400 font-medium">Lunas pada: {formatDate(p.paidAt)}</span>
+                  <span className="text-[#f3f1eb] font-medium">Lunas pada: {formatDate(p.paidAt)}</span>
                 ) : (
                   <span className="text-neutral-500 italic">Menunggu Pembayaran</span>
                 )}

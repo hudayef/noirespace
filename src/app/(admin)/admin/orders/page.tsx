@@ -6,7 +6,8 @@ import { orders, users, bookings, orderItems } from "@/lib/db/schema"
 import { desc, eq, inArray } from "drizzle-orm"
 import { formatRupiah, formatDate } from "@/lib/utils/format"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, CheckCircle, XCircle, FileText } from "lucide-react"
+import { SectionLabel, StatusBadge } from "@/components/editorial"
+import { CheckCircle, XCircle, FileText } from "lucide-react"
 
 export default async function AdminOrdersPage() {
   await requireAdmin()
@@ -71,59 +72,49 @@ export default async function AdminOrdersPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <ShoppingCart className="h-6 w-6 text-amber-400" />
-          <span>Daftar Pesanan & Transaksi</span>
+        <SectionLabel number="01" label="LOG TRANSAKSI" />
+        <h1 className="font-display text-2xl sm:text-3xl text-[#f3f1eb] font-normal">
+          Daftar Pesanan & Transaksi
         </h1>
-        <p className="text-neutral-400 text-xs sm:text-sm">
+        <p className="text-xs sm:text-sm text-[#6f6f6a]">
           Semua pesanan masuk, rincian item, dan status pembayaran pelanggan.
         </p>
       </div>
 
-      <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06] bg-[#121217]">
+      <div className="border border-[#f3f1eb]/[0.1] divide-y divide-[#f3f1eb]/[0.08] bg-[#111111]">
         {orderList.length === 0 ? (
-          <p className="p-8 text-center text-xs text-neutral-400">Belum ada transaksi pesanan yang masuk.</p>
+          <p className="p-8 text-center font-mono text-xs text-[#6f6f6a]">Belum ada transaksi pesanan yang masuk.</p>
         ) : (
           orderList.map((o) => (
             <div key={o.id} className="p-5 flex flex-col md:flex-row justify-between md:items-center gap-4">
-              <div className="space-y-2">
+              <div className="space-y-2 font-mono">
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs font-bold text-white">{o.orderNumber}</span>
-                  <span
-                    className={`text-[10px] uppercase px-2.5 py-0.5 rounded-full border font-bold ${
-                      o.status === "paid"
-                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                        : o.status === "cancelled"
-                        ? "bg-rose-500/10 text-rose-400 border-rose-500/30"
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/30"
-                    }`}
-                  >
-                    {o.status}
-                  </span>
+                  <span className="text-xs font-bold text-[#f3f1eb]">{o.orderNumber}</span>
+                  <StatusBadge status={o.status} />
                 </div>
 
-                <p className="text-xs text-neutral-400">
-                  Pemesan: <strong className="text-white">{o.customerName}</strong> ({o.customerEmail}) • Dibuat: {formatDate(o.createdAt)}
+                <p className="text-xs text-[#6f6f6a]">
+                  Pemesan: <strong className="text-[#f3f1eb] font-medium">{o.customerName}</strong> ({o.customerEmail}) · Dibuat: {formatDate(o.createdAt)}
                 </p>
 
                 {o.items.length > 0 && (
-                  <div className="text-xs text-neutral-300 bg-black/30 rounded-md p-2.5 border border-white/[0.04] space-y-1">
+                  <div className="text-xs text-[#e8e6df] bg-[#0a0a0a] p-2.5 border border-[#f3f1eb]/[0.08] space-y-1">
                     {o.items.map((it) => (
                       <div key={it.id} className="flex justify-between">
                         <span>• {it.description} ({it.quantity}x)</span>
-                        <span className="text-neutral-400 font-mono">{formatRupiah(it.total)}</span>
+                        <span className="text-[#6f6f6a] font-mono">{formatRupiah(it.total)}</span>
                       </div>
                     ))}
                   </div>
                 )}
 
-                <p className="font-extrabold text-base text-amber-300">Total: {formatRupiah(o.total)}</p>
+                <p className="font-bold text-base text-[#f3f1eb]">Total: {formatRupiah(o.total)}</p>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
                 <Link href={`/account/orders/${o.id}/invoice`} target="_blank">
-                  <Button variant="outline" size="sm" className="text-xs border-white/[0.12] text-neutral-300 hover:text-white flex items-center gap-1.5">
-                    <FileText className="h-3.5 w-3.5 text-amber-400" />
+                  <Button variant="outline" size="sm" className="h-8 font-mono text-xs border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] rounded-none flex items-center gap-1.5">
+                    <FileText className="h-3.5 w-3.5 text-[#6f6f6a]" />
                     <span>Faktur</span>
                   </Button>
                 </Link>
@@ -135,7 +126,7 @@ export default async function AdminOrdersPage() {
                       <Button
                         type="submit"
                         size="sm"
-                        className="text-xs font-bold uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-1.5"
+                        className="h-8 font-mono text-[10px] uppercase tracking-wider bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] rounded-none flex items-center gap-1.5 font-medium"
                       >
                         <CheckCircle className="h-3.5 w-3.5" />
                         <span>Tandai Lunas</span>
@@ -148,7 +139,7 @@ export default async function AdminOrdersPage() {
                         type="submit"
                         variant="ghost"
                         size="sm"
-                        className="text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center gap-1"
+                        className="h-8 font-mono text-[10px] uppercase text-[#e88] hover:text-[#fff] hover:bg-[#1f0d0d] rounded-none flex items-center gap-1"
                       >
                         <XCircle className="h-3.5 w-3.5" />
                         <span>Batalkan</span>

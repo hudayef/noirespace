@@ -54,7 +54,7 @@ export default async function AdminInstructorsPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <Users className="h-6 w-6 text-amber-400" />
+          <Users className="h-6 w-6 text-[#f3f1eb]" />
           <span>Instruktur & Mentor</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -83,7 +83,7 @@ export default async function AdminInstructorsPage() {
                         name="status"
                         defaultValue={inst.status}
                         aria-label={`Ubah status mentor ${inst.name}`}
-                        className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
+                        className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]"
                       >
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -96,7 +96,7 @@ export default async function AdminInstructorsPage() {
                         type="submit"
                         variant="ghost"
                         size="sm"
-                        className="text-neutral-500 hover:text-rose-400 h-8 px-2"
+                        className="text-neutral-500 hover:text-[#e88] h-8 px-2"
                         aria-label={`Hapus mentor ${inst.name}`}
                       >
                         <Trash2 className="h-4 w-4" />

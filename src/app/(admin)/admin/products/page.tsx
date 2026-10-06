@@ -58,7 +58,7 @@ export default async function AdminProductsPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <Package className="h-6 w-6 text-amber-400" />
+          <Package className="h-6 w-6 text-[#f3f1eb]" />
           <span>Katalog Produk & Sesi</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -89,7 +89,7 @@ export default async function AdminProductsPage() {
                     </div>
                     <p className="font-bold text-sm sm:text-base text-white">{p.name}</p>
                     <p className="text-xs text-neutral-400">
-                      <strong className="text-amber-300">{formatRupiah(p.price)}</strong> • {p.durationMinutes || 60} Menit • Kapasitas: {p.capacity || 1}
+                      <strong className="text-[#e8e6df]">{formatRupiah(p.price)}</strong> • {p.durationMinutes || 60} Menit • Kapasitas: {p.capacity || 1}
                     </p>
                   </div>
 
@@ -103,7 +103,7 @@ export default async function AdminProductsPage() {
         <div>
           <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-5 sticky top-24">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Plus className="h-4 w-4 text-amber-400" />
+              <Plus className="h-4 w-4 text-[#f3f1eb]" />
               <span>Tambah Produk Baru</span>
             </h2>
 
@@ -120,7 +120,7 @@ export default async function AdminProductsPage() {
 
               <div className="space-y-1">
                 <Label htmlFor="prod-type" className="text-xs text-neutral-300">Tipe Layanan</Label>
-                <select id="prod-type" name="type" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                <select id="prod-type" name="type" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]">
                   <option value="studio">Studio Experience</option>
                   <option value="education">Education Program</option>
                   <option value="service">Creative Service</option>
@@ -130,7 +130,7 @@ export default async function AdminProductsPage() {
 
               <div className="space-y-1">
                 <Label htmlFor="prod-category" className="text-xs text-neutral-300">Kategori (Opsional)</Label>
-                <select id="prod-category" name="categoryId" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                <select id="prod-category" name="categoryId" className="w-full rounded-md border border-white/[0.12] bg-[#09090b] px-3 py-2 text-xs text-white focus:outline-none focus:border-[#f3f1eb]/[0.4]">
                   <option value="">Tanpa Kategori</option>
                   {categoriesList.map((cat) => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>

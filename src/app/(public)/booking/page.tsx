@@ -34,25 +34,25 @@ export default async function BookingPage({ searchParams }: Props) {
       : `/services/${product.slug}`
 
   return (
-    <div className="container mx-auto px-6 lg:px-12 py-12 max-w-3xl space-y-8">
+    <div className="container mx-auto px-6 lg:px-12 py-16 max-w-3xl space-y-8">
       {/* Contextual Back Navigation */}
       <div>
         <Link
           href={backLink}
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[#6f6f6a] hover:text-[#f3f1eb] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Detail {product.name}</span>
         </Link>
       </div>
 
-      <div className="space-y-2 border-b border-white/[0.08] pb-6">
-        <span className="text-[11px] uppercase tracking-[0.25em] text-amber-400 font-semibold">
-          Reservasi Jadwal & Sesi
+      <div className="space-y-3 border-b border-[#f3f1eb]/[0.08] pb-6">
+        <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#6f6f6a]">
+          RESERVASI JADWAL & SESI
         </span>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">{product.name}</h1>
-        <p className="text-sm text-neutral-400">
-          Tarif: <strong className="text-white">{formatRupiah(product.price)}</strong> • Durasi: {product.durationMinutes || 60} Menit
+        <h1 className="font-display text-3xl sm:text-4xl text-[#f3f1eb] font-normal">{product.name}</h1>
+        <p className="font-mono text-xs text-[#6f6f6a]">
+          Tarif: <strong className="text-[#f3f1eb] font-normal">{formatRupiah(product.price)}</strong> · Durasi: {product.durationMinutes || 60} Menit
         </p>
       </div>
 

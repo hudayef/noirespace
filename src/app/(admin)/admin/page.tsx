@@ -5,23 +5,8 @@ import { bookings, orders, schoolInquiries, products } from "@/lib/db/schema"
 import { eq, sql } from "drizzle-orm"
 import { formatRupiah, formatTime } from "@/lib/utils/format"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Calendar, ArrowRight } from "lucide-react"
-
-function getStatusBadge(status: string) {
-  switch (status) {
-    case "confirmed":
-      return "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-    case "completed":
-      return "bg-blue-500/10 text-blue-400 border-blue-500/30"
-    case "pending":
-    case "awaiting_payment":
-      return "bg-amber-500/10 text-amber-400 border-amber-500/30"
-    case "cancelled":
-      return "bg-rose-500/10 text-rose-400 border-rose-500/30"
-    default:
-      return "bg-white/5 text-neutral-400 border-white/10"
-  }
-}
+import { SectionLabel, StatusBadge } from "@/components/editorial"
+import { Calendar, ArrowRight } from "lucide-react"
 
 export default async function AdminDashboardPage() {
   await requireAdmin()
@@ -54,74 +39,74 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <LayoutDashboard className="h-6 w-6 text-amber-400" />
-          <span>Console Operasional Harian</span>
+        <SectionLabel number="01" label="DASHBOARD OPERASIONAL" />
+        <h1 className="font-display text-2xl sm:text-3xl text-[#f3f1eb] font-normal">
+          Console Harian
         </h1>
-        <p className="text-neutral-400 text-xs sm:text-sm">
-          Pusat pemantauan transaksi, utilisasi studio, dan jadwal Noire Space.
+        <p className="text-xs sm:text-sm text-[#6f6f6a]">
+          Pemantauan transaksi, utilisasi studio, dan jadwal Noire Space.
         </p>
       </div>
 
-      <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-4">
-        <h2 className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-bold">Ringkasan Hari Ini ({today})</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
-          <div className="p-4 rounded-lg border border-white/[0.06] bg-[#09090b] space-y-1">
-            <p className="text-[11px] text-neutral-400">Sesi Hari Ini</p>
-            <p className="text-2xl font-extrabold text-white">{todayBookings.length}</p>
+      <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 space-y-4">
+        <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6f6f6a]">
+          RINGKASAN HARI INI ({today})
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
+          <div className="p-4 border border-[#f3f1eb]/[0.08] bg-[#0a0a0a] space-y-1">
+            <p className="font-mono text-[10px] text-[#6f6f6a]">SESI HARI INI</p>
+            <p className="text-2xl font-bold text-[#f3f1eb]">{todayBookings.length}</p>
           </div>
-          <div className="p-4 rounded-lg border border-white/[0.06] bg-[#09090b] space-y-1">
-            <p className="text-[11px] text-neutral-400">Menunggu Pembayaran</p>
-            <p className="text-2xl font-extrabold text-amber-400">{pendingPayments.length}</p>
+          <div className="p-4 border border-[#f3f1eb]/[0.08] bg-[#0a0a0a] space-y-1">
+            <p className="font-mono text-[10px] text-[#6f6f6a]">MENUNGGU PEMBAYARAN</p>
+            <p className="text-2xl font-bold text-[#f3f1eb]">{pendingPayments.length}</p>
           </div>
-          <div className="p-4 rounded-lg border border-white/[0.06] bg-[#09090b] space-y-1">
-            <p className="text-[11px] text-neutral-400">Inquiry Sekolah Baru</p>
-            <p className="text-2xl font-extrabold text-indigo-400">{newInquiries.length}</p>
+          <div className="p-4 border border-[#f3f1eb]/[0.08] bg-[#0a0a0a] space-y-1">
+            <p className="font-mono text-[10px] text-[#6f6f6a]">INQUIRY SEKOLAH BARU</p>
+            <p className="text-2xl font-bold text-[#f3f1eb]">{newInquiries.length}</p>
           </div>
-          <div className="p-4 rounded-lg border border-white/[0.06] bg-[#09090b] space-y-1">
-            <p className="text-[11px] text-neutral-400">Layanan Aktif</p>
-            <p className="text-2xl font-extrabold text-white">{activeProducts[0]?.count || 0}</p>
+          <div className="p-4 border border-[#f3f1eb]/[0.08] bg-[#0a0a0a] space-y-1">
+            <p className="font-mono text-[10px] text-[#6f6f6a]">LAYANAN AKTIF</p>
+            <p className="text-2xl font-bold text-[#f3f1eb]">{activeProducts[0]?.count || 0}</p>
           </div>
-          <div className="p-4 rounded-lg border border-white/[0.06] bg-[#09090b] space-y-1">
-            <p className="text-[11px] text-neutral-400">Total Omset Sukses</p>
-            <p className="text-lg sm:text-xl font-extrabold text-emerald-400">{formatRupiah(totalRevenue)}</p>
+          <div className="p-4 border border-[#f3f1eb]/[0.08] bg-[#0a0a0a] space-y-1">
+            <p className="font-mono text-[10px] text-[#6f6f6a]">OMSET TERCAPAI</p>
+            <p className="text-lg sm:text-xl font-bold text-[#f3f1eb]">{formatRupiah(totalRevenue)}</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-amber-400" />
-              <span>Jadwal Sesi Hari Ini</span>
+          <div className="flex justify-between items-center border-b border-[#f3f1eb]/[0.08] pb-3">
+            <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-[#f3f1eb] flex items-center gap-2">
+              <Calendar className="h-3.5 w-3.5 text-[#6f6f6a]" />
+              <span>JADWAL SESI HARI INI</span>
             </h2>
             <Link href="/admin/bookings">
-              <Button variant="outline" size="sm" className="text-xs border-white/[0.12] text-neutral-300 hover:text-white flex items-center gap-1">
-                <span>Semua Booking</span>
+              <Button variant="outline" size="sm" className="font-mono text-[10px] uppercase tracking-wider border-[#f3f1eb]/[0.15] text-[#6f6f6a] hover:text-[#f3f1eb] hover:bg-[#111111] rounded-none flex items-center gap-1">
+                <span>SEMUA BOOKING</span>
                 <ArrowRight className="h-3 w-3" />
               </Button>
             </Link>
           </div>
 
           {todayBookings.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-white/10 p-8 text-center text-xs text-neutral-400 bg-[#121217]">
+            <div className="border border-dashed border-[#f3f1eb]/[0.1] p-8 text-center font-mono text-xs text-[#6f6f6a] bg-[#111111]">
               Tidak ada agenda sesi studio atau kelas yang terjadwal untuk hari ini.
             </div>
           ) : (
-            <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06] bg-[#121217]">
+            <div className="border border-[#f3f1eb]/[0.1] divide-y divide-[#f3f1eb]/[0.08] bg-[#111111]">
               {todayBookings.map((b) => (
-                <div key={b.id} className="p-4 sm:p-5 flex justify-between items-center text-sm">
+                <div key={b.id} className="p-4 sm:p-5 flex justify-between items-center">
                   <div className="space-y-1">
-                    <span className="font-mono text-xs font-bold text-white">{b.bookingNumber}</span>
-                    <p className="font-bold text-white">
-                      <span className="text-amber-300">{formatTime(b.startTime)} - {formatTime(b.endTime)} WIB</span>
+                    <span className="font-mono text-xs font-bold text-[#f3f1eb]">{b.bookingNumber}</span>
+                    <p className="font-mono text-sm text-[#e8e6df]">
+                      {formatTime(b.startTime)} - {formatTime(b.endTime)} WIB
                     </p>
-                    <p className="text-xs text-neutral-400">Kapasitas: {b.participants} orang</p>
+                    <p className="text-xs text-[#6f6f6a]">Kapasitas: {b.participants} orang</p>
                   </div>
-                  <span className={`text-[10px] uppercase font-bold px-2.5 py-0.5 rounded-full border ${getStatusBadge(b.status)}`}>
-                    {b.status}
-                  </span>
+                  <StatusBadge status={b.status} />
                 </div>
               ))}
             </div>
@@ -129,25 +114,27 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-base font-bold text-white">Aksi Cepat Operasional</h2>
-          <div className="rounded-xl border border-white/[0.08] p-5 space-y-2.5 bg-[#121217]">
+          <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[#f3f1eb]">
+            AKSI OPERASIONAL
+          </h2>
+          <div className="border border-[#f3f1eb]/[0.1] p-5 space-y-2.5 bg-[#111111]">
             <Link href="/admin/products" className="block">
-              <Button variant="outline" className="w-full justify-start text-xs border-white/[0.12] text-neutral-300 hover:text-white hover:bg-white/[0.06] h-10">
+              <Button variant="outline" className="w-full justify-start font-mono text-[10px] uppercase tracking-wider border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#0a0a0a] rounded-none h-10">
                 + Tambah Produk / Kelas Baru
               </Button>
             </Link>
             <Link href="/admin/schedules" className="block">
-              <Button variant="outline" className="w-full justify-start text-xs border-white/[0.12] text-neutral-300 hover:text-white hover:bg-white/[0.06] h-10">
+              <Button variant="outline" className="w-full justify-start font-mono text-[10px] uppercase tracking-wider border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#0a0a0a] rounded-none h-10">
                 + Atur Template Jadwal & Jam Kerja
               </Button>
             </Link>
             <Link href="/admin/inquiries" className="block">
-              <Button variant="outline" className="w-full justify-start text-xs border-white/[0.12] text-neutral-300 hover:text-white hover:bg-white/[0.06] h-10">
+              <Button variant="outline" className="w-full justify-start font-mono text-[10px] uppercase tracking-wider border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#0a0a0a] rounded-none h-10">
                 Lihat Pengajuan Sekolah ({newInquiries.length})
               </Button>
             </Link>
             <Link href="/admin/reports" className="block">
-              <Button variant="outline" className="w-full justify-start text-xs border-white/[0.12] text-neutral-300 hover:text-white hover:bg-white/[0.06] h-10">
+              <Button variant="outline" className="w-full justify-start font-mono text-[10px] uppercase tracking-wider border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#0a0a0a] rounded-none h-10">
                 Laporan Keuangan & Utilitas
               </Button>
             </Link>

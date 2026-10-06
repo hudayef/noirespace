@@ -6,7 +6,7 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { formatRupiah, formatTime } from "@/lib/utils/format"
-import { ShoppingCart, ArrowLeft, Trash2, ArrowRight, ShieldCheck, AlertCircle, Clock, AlertTriangle } from "lucide-react"
+import { ShoppingCart, ArrowLeft, Trash2, ArrowRight, ShieldCheck, AlertCircle, Clock } from "lucide-react"
 
 interface CartItem {
   id: string
@@ -162,26 +162,31 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container mx-auto px-6 lg:px-12 py-12 max-w-3xl space-y-8">
+    <div className="container mx-auto px-6 lg:px-12 py-16 max-w-3xl space-y-8">
       <div>
         <Link
           href="/studio"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[#6f6f6a] hover:text-[#f3f1eb] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Tambah Jadwal / Sesi Lain</span>
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span>TAMBAH JADWAL / SESI LAIN</span>
         </Link>
       </div>
 
-      <div className="space-y-2 border-b border-white/[0.08] pb-6">
-        <h1 className="text-3xl font-extrabold tracking-tight text-white">Review Pesanan Anda</h1>
-        <p className="text-xs text-neutral-400">
+      <div className="space-y-2 border-b border-[#f3f1eb]/[0.08] pb-6">
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6f6f6a]">
+          01 / REVIEW PESANAN
+        </span>
+        <h1 className="font-display text-3xl sm:text-4xl text-[#f3f1eb] font-normal">
+          KERANJANG TRANSAKSI
+        </h1>
+        <p className="text-xs text-[#6f6f6a]">
           Pastikan jadwal sesi dan rincian waktu sudah sesuai sebelum mengunci transaksi.
         </p>
       </div>
 
       {error && (
-        <div className="rounded-xl bg-destructive/10 border border-destructive/20 p-4 text-xs text-destructive flex items-center gap-3">
+        <div className="rounded-lg bg-[#3a1111] border border-[#6b1e1e] p-4 font-mono text-xs text-[#c96] flex items-center gap-3">
           <AlertCircle className="h-4 w-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -189,28 +194,24 @@ export default function CheckoutPage() {
 
       {/* Cart Slot Hold Timer (BR-04: 15 Min Hold) */}
       {timeLeft !== null && timeLeft > 0 && (
-        <div className={`rounded-xl border p-4 text-xs flex items-center justify-between gap-3 transition-colors ${
-          timeLeft < 60
-            ? "bg-rose-500/10 border-rose-500/30 text-rose-300"
-            : "bg-amber-500/10 border-amber-500/30 text-amber-300"
-        }`}>
-          <div className="flex items-center gap-2.5 font-medium">
-            {timeLeft < 60 ? <AlertTriangle className="h-4 w-4 shrink-0" /> : <Clock className="h-4 w-4 shrink-0" />}
-            <span>Slot ditahan sementara selama proses checkout Anda.</span>
+        <div className="border border-[#f3f1eb]/[0.2] bg-[#111111] p-4 text-xs flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 text-[#e8e6df] font-mono text-[11px]">
+            <Clock className="h-3.5 w-3.5 shrink-0 text-[#6f6f6a]" />
+            <span>Slot ditahan selama proses checkout.</span>
           </div>
-          <span className="font-mono font-bold text-base tracking-widest shrink-0">
+          <span className="font-mono font-medium text-sm tracking-widest text-[#f3f1eb] shrink-0">
             {formatTimer(timeLeft)}
           </span>
         </div>
       )}
       {timeLeft === 0 && (
-        <div className="rounded-xl bg-rose-500/10 border border-rose-500/30 p-4 text-xs text-rose-300 flex items-center justify-between gap-3">
+        <div className="border border-[#6b1e1e] bg-[#1f0d0d] p-4 text-xs text-[#e88] flex items-center justify-between gap-3 font-mono">
           <span>Waktu penahanan slot habis. Silakan pilih ulang jadwal sesi Anda.</span>
           <Button
             onClick={() => router.refresh()}
             variant="outline"
             size="sm"
-            className="text-[10px] uppercase font-bold border-rose-500/40 text-rose-300 hover:bg-rose-500/10"
+            className="text-[10px] uppercase font-bold border-[#6b1e1e] text-[#e88] hover:bg-[#3a1111] rounded-none"
           >
             Muat Ulang
           </Button>
@@ -218,25 +219,25 @@ export default function CheckoutPage() {
       )}
 
       {/* Cart Items List */}
-      <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06] bg-[#121217]">
+      <div className="border border-[#f3f1eb]/[0.1] divide-y divide-[#f3f1eb]/[0.08] bg-[#111111]">
         {items.map((item) => (
           <div key={item.id} className="p-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
             <div className="space-y-1.5">
-              <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-white/10 bg-white/5 text-neutral-300 font-semibold">
+              <span className="font-mono text-[9px] uppercase tracking-[0.2em] px-2 py-0.5 border border-[#f3f1eb]/[0.1] text-[#6f6f6a]">
                 {item.productType}
               </span>
-              <h2 className="font-bold text-base text-white">{item.productName}</h2>
+              <h2 className="font-display text-lg sm:text-xl text-[#f3f1eb] font-normal">{item.productName}</h2>
               {item.bookingDate && item.startTime && item.endTime && (
-                <p className="text-xs text-amber-300 font-medium">
-                  {item.bookingDate} ({formatTime(item.startTime)} - {formatTime(item.endTime)} WIB)
+                <p className="font-mono text-xs text-[#e8e6df]">
+                  {item.bookingDate} · {formatTime(item.startTime)} - {formatTime(item.endTime)} WIB
                 </p>
               )}
             </div>
             <div className="flex sm:flex-col items-center sm:items-end justify-between gap-3">
               <div className="text-right">
-                <p className="font-extrabold text-base text-white">{formatRupiah(item.price * item.quantity)}</p>
+                <p className="font-mono font-bold text-base text-[#f3f1eb]">{formatRupiah(item.price * item.quantity)}</p>
                 {item.quantity > 1 && (
-                  <span className="text-[11px] text-neutral-400">{item.quantity}x @ {formatRupiah(item.price)}</span>
+                  <span className="font-mono text-[10px] text-[#6f6f6a]">{item.quantity}x @ {formatRupiah(item.price)}</span>
                 )}
               </div>
               <button
@@ -244,7 +245,7 @@ export default function CheckoutPage() {
                 onClick={() => handleRemoveItem(item.id)}
                 disabled={removingId === item.id}
                 aria-label="Hapus item ini"
-                className="text-neutral-500 hover:text-rose-400 transition-colors p-1"
+                className="text-[#6f6f6a] hover:text-[#f3f1eb] transition-colors p-1"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -254,16 +255,16 @@ export default function CheckoutPage() {
       </div>
 
       {/* Checkout Summary Card */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8 space-y-6 shadow-xl">
-        <div className="flex justify-between items-center text-lg font-bold border-b border-white/[0.08] pb-4">
-          <span className="text-neutral-300 text-sm uppercase tracking-wider">Total Pembayaran</span>
-          <span className="text-2xl font-extrabold text-white">{formatRupiah(subtotal)}</span>
+      <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-8 space-y-6">
+        <div className="flex justify-between items-baseline font-mono border-b border-[#f3f1eb]/[0.08] pb-4">
+          <span className="text-[#6f6f6a] text-xs uppercase tracking-widest">TOTAL PEMBAYARAN</span>
+          <span className="text-2xl font-bold text-[#f3f1eb]">{formatRupiah(subtotal)}</span>
         </div>
 
-        <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-4 text-xs text-neutral-400 space-y-1.5">
-          <p className="font-bold text-neutral-200 flex items-center gap-1.5">
-            <ShieldCheck className="h-4 w-4 text-emerald-400" />
-            <span>Kebijakan Transaksi Noire Space:</span>
+        <div className="border border-[#f3f1eb]/[0.08] bg-[#0a0a0a] p-4 font-mono text-[11px] text-[#6f6f6a] space-y-1.5">
+          <p className="text-[#e8e6df] font-medium flex items-center gap-1.5">
+            <ShieldCheck className="h-3.5 w-3.5 text-[#e8e6df]" />
+            <span>KEBIJAKAN TRANSAKSI NOIRE SPACE:</span>
           </p>
           <p>• Transaksi bersifat non-refundable (tidak dapat dicairkan kembali).</p>
           <p>• Reschedule jadwal sesi dapat diajukan mandiri maksimal 24 jam sebelum jadwal sesi.</p>
@@ -272,9 +273,9 @@ export default function CheckoutPage() {
         <Button
           onClick={handleCheckout}
           disabled={processing}
-          className="w-full h-12 text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200 flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(255,255,255,0.15)]"
+          className="w-full h-12 font-mono text-[11px] uppercase tracking-[0.2em] font-medium bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] flex items-center justify-center gap-2 rounded-none transition-colors"
         >
-          <span>{processing ? "Memproses Pesanan..." : "Konfirmasi & Lanjut Pembayaran"}</span>
+          <span>{processing ? "MEMPROSES PESANAN..." : "KONFIRMASI & LANJUT PEMBAYARAN"}</span>
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>

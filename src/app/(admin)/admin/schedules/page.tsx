@@ -99,7 +99,7 @@ export default async function AdminSchedulesPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <CalendarClock className="h-6 w-6 text-amber-400" />
+          <CalendarClock className="h-6 w-6 text-[#f3f1eb]" />
           <span>Jadwal & Ketersediaan</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -153,16 +153,16 @@ export default async function AdminSchedulesPage() {
                 <div key={s.id} className="p-4 text-xs flex justify-between items-center">
                   <div>
                     <span className="font-bold text-white">{s.dayOfWeek !== null ? DAYS[s.dayOfWeek!] : "Spesifik"}</span>:{" "}
-                    <span className="text-amber-300">{formatTime(s.startTime)} - {formatTime(s.endTime)} WIB</span>
+                    <span className="text-[#e8e6df]">{formatTime(s.startTime)} - {formatTime(s.endTime)} WIB</span>
                     <p className="text-neutral-400 mt-0.5">{productList.find((p) => p.id === s.productId)?.name || "Produk"}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="uppercase text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+                    <span className="uppercase text-[10px] font-bold px-2 py-0.5 rounded-full border border-[#f3f1eb]/[0.15] bg-[#141414] text-[#f3f1eb]">
                       {s.status}
                     </span>
                     <form action={handleDeleteSchedule}>
                       <input type="hidden" name="id" value={s.id} />
-                      <Button variant="ghost" size="sm" className="text-neutral-500 hover:text-rose-400 h-7 px-2">
+                      <Button variant="ghost" size="sm" className="text-neutral-500 hover:text-[#e88] h-7 px-2">
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </form>
@@ -213,12 +213,12 @@ export default async function AdminSchedulesPage() {
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="uppercase text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-400">
+                    <span className="uppercase font-mono text-[9px] px-2 py-0.5 border border-[#6b1e1e] bg-[#1f0d0d] text-[#e88]">
                       {b.type}
                     </span>
                     <form action={handleDeleteBlockedDate}>
                       <input type="hidden" name="id" value={b.id} />
-                      <Button variant="ghost" size="sm" className="text-neutral-500 hover:text-rose-400 h-7 px-2">
+                      <Button variant="ghost" size="sm" className="text-neutral-500 hover:text-[#e88] h-7 px-2">
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </form>

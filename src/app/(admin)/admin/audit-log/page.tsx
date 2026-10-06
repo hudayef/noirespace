@@ -27,7 +27,7 @@ export default async function AdminAuditLogPage() {
     <div className="space-y-8">
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <ScrollText className="h-6 w-6 text-amber-400" />
+          <ScrollText className="h-6 w-6 text-[#f3f1eb]" />
           <span>Audit Log Sistem</span>
         </h1>
         <p className="text-neutral-400 text-xs sm:text-sm">
@@ -43,7 +43,7 @@ export default async function AdminAuditLogPage() {
             <div key={l.id} className="p-4 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
               <div className="space-y-1">
                 <div>
-                  <span className="font-bold text-amber-300">[{l.action.toUpperCase()}]</span>{" "}
+                  <span className="font-bold text-[#e8e6df]">[{l.action.toUpperCase()}]</span>{" "}
                   <span className="text-white">{l.entityType}</span>{" "}
                   <span className="text-neutral-500 font-mono text-[10px]">({l.entityId})</span>
                 </div>

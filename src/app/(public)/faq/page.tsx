@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { HelpCircle, MessageSquare, ArrowLeft } from "lucide-react"
+import { SectionLabel } from "@/components/editorial"
+import { ArrowLeft } from "lucide-react"
 
 export const metadata = {
   title: "Pertanyaan Umum (FAQ) — Noire Space",
@@ -32,48 +33,46 @@ const faqs = [
 
 export default function FAQPage() {
   return (
-    <div className="container mx-auto px-6 lg:px-12 py-16 space-y-12 max-w-4xl">
+    <div className="container mx-auto px-6 lg:px-12 py-16 lg:py-24 space-y-12 max-w-4xl">
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[#6f6f6a] hover:text-[#f3f1eb] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Beranda</span>
         </Link>
       </div>
 
       <div className="space-y-3">
-        <span className="text-[11px] uppercase tracking-[0.25em] text-amber-400 font-semibold flex items-center gap-2">
-          <HelpCircle className="h-4 w-4" />
-          <span>Bantuan & Kebijakan</span>
-        </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">PERTANYAAN UMUM</h1>
-        <p className="text-base text-neutral-300 leading-relaxed">
+        <SectionLabel number="01" label="BANTUAN & KEBIJAKAN" />
+        <h1 className="font-display text-4xl sm:text-5xl font-normal text-[#f3f1eb] leading-tight">
+          PERTANYAAN UMUM
+        </h1>
+        <p className="text-sm sm:text-base text-[#6f6f6a] leading-relaxed">
           Jawaban atas pertanyaan yang paling sering diajukan seputar operasional studio, program edukasi, dan ketentuan pemesanan.
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 font-mono text-xs">
         {faqs.map((faq, i) => (
-          <div key={i} className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-7 space-y-2">
-            <h2 className="text-base sm:text-lg font-bold text-white flex items-start gap-2">
-              <span className="text-amber-400 font-mono text-sm shrink-0 mt-0.5">Q.</span>
+          <div key={i} className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-7 space-y-2">
+            <h2 className="text-sm font-sans font-medium text-[#f3f1eb] flex items-start gap-2">
+              <span className="font-mono text-[11px] text-[#6f6f6a] shrink-0 mt-0.5">Q.</span>
               <span>{faq.q}</span>
             </h2>
-            <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed pl-5">{faq.a}</p>
+            <p className="text-[#6f6f6a] leading-relaxed pl-5 text-xs font-sans">{faq.a}</p>
           </div>
         ))}
       </div>
 
-      <div className="rounded-2xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 className="font-bold text-sm text-white">Punya pertanyaan lain yang belum terjawab?</h3>
-          <p className="text-xs text-neutral-400 mt-0.5">Tim concierge Noire Space siap membantu menjawab pertanyaan Anda.</p>
+          <h3 className="font-mono text-xs uppercase tracking-wider text-[#f3f1eb]">Punya pertanyaan lain?</h3>
+          <p className="text-xs text-[#6f6f6a] mt-0.5">Tim concierge Noire Space siap membantu menjawab pertanyaan Anda.</p>
         </div>
         <Link href="/contact">
-          <Button size="sm" className="h-10 text-xs uppercase tracking-wider font-bold bg-white text-black hover:bg-neutral-200 flex items-center gap-1.5 shrink-0">
-            <MessageSquare className="h-3.5 w-3.5" />
+          <Button variant="outline" size="sm" className="font-mono text-[10px] uppercase tracking-wider border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] rounded-none flex items-center gap-1.5 shrink-0">
             <span>Hubungi Kami</span>
           </Button>
         </Link>

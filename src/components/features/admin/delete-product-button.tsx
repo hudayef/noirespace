@@ -56,7 +56,7 @@ export function DeleteProductButton({ productId, productName, onDelete }: Delete
       size="xs"
       onClick={() => setConfirming(true)}
       aria-label={`Hapus produk ${productName}`}
-      className="text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 text-xs"
+      className="text-[#6f6f6a] hover:text-[#e88] hover:bg-[#1f0d0d] text-xs"
     >
       <Trash2 className="h-3.5 w-3.5" />
     </Button>

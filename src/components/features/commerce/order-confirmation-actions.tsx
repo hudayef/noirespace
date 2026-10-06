@@ -40,7 +40,7 @@ export function OrderConfirmationActions({
       <div className="flex flex-col sm:flex-row gap-3">
         {isAwaitingPayment && paymentUrl && (
           <a href={paymentUrl} className="flex-1">
-            <Button size="lg" className="w-full h-12 text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200">
+            <Button size="lg" className="w-full h-11 text-[11px] uppercase tracking-[0.18em] font-medium bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] rounded-none">
               Bayar Sekarang ↗
             </Button>
           </a>
@@ -50,10 +50,10 @@ export function OrderConfirmationActions({
           type="button"
           onClick={handlePrint}
           variant="outline"
-          className="flex-1 h-12 text-xs uppercase tracking-widest font-semibold border-white/[0.12] text-neutral-200 hover:text-white hover:bg-white/[0.06] flex items-center justify-center gap-2"
+          className="flex-1 h-11 text-[11px] uppercase tracking-[0.18em] font-medium border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] rounded-none flex items-center justify-center gap-2"
         >
-          <Printer className="h-4 w-4 text-amber-400" />
-          <span>Cetak / Simpan Invoice</span>
+          <Printer className="h-3.5 w-3.5 text-[#6f6f6a]" />
+          <span>Cetak Invoice</span>
         </Button>
 
         <a
@@ -65,9 +65,9 @@ export function OrderConfirmationActions({
           <Button
             type="button"
             variant="outline"
-            className="w-full h-12 text-xs uppercase tracking-widest font-semibold border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/10 flex items-center justify-center gap-2"
+            className="w-full h-11 text-[11px] uppercase tracking-[0.18em] font-medium border-[#f3f1eb]/[0.15] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] rounded-none flex items-center justify-center gap-2"
           >
-            <MessageSquare className="h-4 w-4 text-emerald-400" />
+            <MessageSquare className="h-3.5 w-3.5 text-[#6f6f6a]" />
             <span>Chat Admin</span>
           </Button>
         </a>

@@ -13,12 +13,14 @@ export async function Header() {
     : null
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#09090b]/80 backdrop-blur-xl supports-[backdrop-filter]:bg-[#09090b]/60">
-      <div className="container mx-auto flex h-20 items-center justify-between px-6 lg:px-12">
-        <Link href="/" className="group flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-amber-400/90 shadow-[0_0_12px_rgba(251,191,36,0.6)] group-hover:scale-125 transition-transform" />
-          <span className="text-xl font-extrabold tracking-[0.22em] text-white">
-            NOIRE<span className="text-white/40 font-light">SPACE</span>
+    <header className="sticky top-0 z-50 w-full border-b border-[#f3f1eb]/[0.08] bg-[#0a0a0a]/90 backdrop-blur-md">
+      <div className="container mx-auto flex h-16 sm:h-20 items-center justify-between px-6 lg:px-12">
+        <Link href="/" className="group flex items-center gap-3">
+          <span className="font-mono text-[10px] tracking-[0.2em] text-[#6f6f6a] group-hover:text-[#f3f1eb] transition-colors">
+            01 /
+          </span>
+          <span className="font-display text-lg sm:text-xl font-normal tracking-[0.18em] text-[#f3f1eb]">
+            NOIRE <span className="text-[#6f6f6a] font-light">SPACE</span>
           </span>
         </Link>
         <NavMenu user={userData} />

@@ -177,28 +177,28 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
       <div>
         <Link
           href="/account/bookings"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[#6f6f6a] hover:text-[#f3f1eb] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Riwayat Booking</span>
         </Link>
       </div>
 
-      <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8 space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-white/[0.08] pb-6">
+      <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-4 border-b border-[#f3f1eb]/[0.08] pb-6">
           <div className="space-y-1">
-            <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 block">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-[#6f6f6a] block">
               {booking.bookingNumber}
             </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">{product?.name || "Booking Sesi"}</h1>
+            <h1 className="font-display text-2xl sm:text-3xl text-[#f3f1eb] font-normal">{product?.name || "Booking Sesi"}</h1>
           </div>
           <span
-            className={`text-xs uppercase font-bold px-3 py-1.5 rounded-full border self-start sm:self-auto ${
+            className={`font-mono text-[10px] uppercase px-3 py-1 border self-start sm:self-auto ${
               booking.status === "confirmed"
-                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                ? "bg-[#141414] text-[#f3f1eb] border-[#f3f1eb]/[0.3]"
                 : booking.status === "cancelled"
-                ? "bg-rose-500/10 text-rose-400 border-rose-500/30"
-                : "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                ? "bg-[#1f0d0d] text-[#e88] border-[#6b1e1e]"
+                : "bg-[#111111] text-[#e8e6df] border-[#6f6f6a]/[0.4]"
             }`}
           >
             {booking.status}
@@ -207,39 +207,39 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
           <div className="space-y-1">
-            <p className="text-xs text-neutral-400 uppercase tracking-wider">Tanggal Sesi</p>
-            <p className="font-bold text-white text-base">{booking.bookingDate}</p>
+            <p className="font-mono text-[10px] text-[#6f6f6a] uppercase tracking-wider">Tanggal Sesi</p>
+            <p className="font-mono font-medium text-[#f3f1eb] text-sm">{booking.bookingDate}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-neutral-400 uppercase tracking-wider">Waktu Sesi</p>
-            <p className="font-bold text-amber-300 text-base">
+            <p className="font-mono text-[10px] text-[#6f6f6a] uppercase tracking-wider">Waktu Sesi</p>
+            <p className="font-mono font-medium text-[#e8e6df] text-sm">
               {formatTime(booking.startTime)} - {formatTime(booking.endTime)} WIB
             </p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-neutral-400 uppercase tracking-wider">Jumlah Peserta</p>
-            <p className="font-bold text-white">{booking.participants} orang</p>
+            <p className="font-mono text-[10px] text-[#6f6f6a] uppercase tracking-wider">Jumlah Peserta</p>
+            <p className="font-mono text-sm text-[#f3f1eb]">{booking.participants} orang</p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-neutral-400 uppercase tracking-wider">Biaya Terdaftar</p>
-            <p className="font-bold text-white">{product ? formatRupiah(product.price) : "-"}</p>
+            <p className="font-mono text-[10px] text-[#6f6f6a] uppercase tracking-wider">Biaya Terdaftar</p>
+            <p className="font-mono text-sm text-[#f3f1eb]">{product ? formatRupiah(product.price) : "-"}</p>
           </div>
         </div>
 
         {booking.status === "cancelled" && (
-          <div className="rounded-lg bg-rose-500/10 border border-rose-500/20 p-4 text-xs text-rose-300 space-y-1">
+          <div className="border border-[#6b1e1e] bg-[#1f0d0d] p-4 font-mono text-xs text-[#e88] space-y-1">
             <p className="font-bold">Status Pembatalan:</p>
             <p>{booking.cancellationReason || "Booking telah dibatalkan."}</p>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="pt-6 border-t border-white/[0.08] flex flex-wrap items-center gap-3">
+        <div className="pt-6 border-t border-[#f3f1eb]/[0.08] flex flex-wrap items-center gap-3">
           {canReschedule && !showReschedule && (
             <Button
               onClick={() => setShowReschedule(true)}
               variant="outline"
-              className="text-xs uppercase tracking-wider font-semibold border-amber-500/40 text-amber-300 hover:bg-amber-500/10 flex items-center gap-2"
+              className="font-mono text-[11px] uppercase tracking-wider border-[#f3f1eb]/[0.2] text-[#e8e6df] hover:text-[#f3f1eb] hover:bg-[#171717] rounded-none flex items-center gap-2"
             >
               <RotateCcw className="h-3.5 w-3.5" />
               <span>Jadwalkan Ulang (Reschedule)</span>
@@ -247,13 +247,13 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
           )}
 
           {booking.status === "confirmed" && reschedules.length === 0 && !isMoreThan24Hours && (
-            <span className="text-xs text-neutral-500 italic">
+            <span className="font-mono text-[11px] text-[#6f6f6a] italic">
               * Reschedule tidak lagi dapat diajukan (kurang dari 24 jam sebelum jadwal sesi).
             </span>
           )}
 
           {booking.status === "confirmed" && reschedules.length >= 1 && (
-            <span className="text-xs text-neutral-500 italic">
+            <span className="font-mono text-[11px] text-[#6f6f6a] italic">
               * Batas kuota reschedule telah digunakan (maksimal 1 kali).
             </span>
           )}
@@ -263,7 +263,7 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
               onClick={handleCancel}
               variant="destructive"
               disabled={cancelling}
-              className="text-xs uppercase tracking-wider font-semibold"
+              className="font-mono text-[11px] uppercase tracking-wider rounded-none"
             >
               {cancelling ? "Membatalkan..." : "Batalkan Booking"}
             </Button>
@@ -271,7 +271,7 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
         </div>
 
         {booking.status !== "cancelled" && (
-          <div className="pt-4 border-t border-white/[0.06]">
+          <div className="pt-4 border-t border-[#f3f1eb]/[0.06]">
             <AddToCalendar
               title={`Sesi ${product?.name || "Noire Space"} - ${booking.bookingNumber}`}
               description={`Reservasi Noire Space #${booking.bookingNumber}. Hadir 10 menit sebelum sesi dimulai.`}
@@ -285,27 +285,27 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
 
       {/* Reschedule Interactive Picker */}
       {showReschedule && (
-        <form onSubmit={handleReschedule} className="rounded-xl border border-amber-400/30 bg-[#161513] p-6 lg:p-8 space-y-6 animate-in fade-in duration-200">
+        <form onSubmit={handleReschedule} className="border border-[#f3f1eb]/[0.2] bg-[#111111] p-6 lg:p-8 space-y-6 animate-in fade-in duration-150">
           <div className="space-y-1">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <RotateCcw className="h-4 w-4 text-amber-400" />
-              <span>Pilih Jadwal Pengganti</span>
+            <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-[#f3f1eb] flex items-center gap-2">
+              <RotateCcw className="h-3.5 w-3.5 text-[#e8e6df]" />
+              <span>PILIH JADWAL PENGGANTI</span>
             </h2>
-            <p className="text-xs text-neutral-400">
+            <p className="font-mono text-[10px] text-[#6f6f6a]">
               Reschedule hanya dapat dilakukan maksimal 1 kali dan minimal 24 jam sebelum jadwal sesi awal.
             </p>
           </div>
 
           {error && (
-            <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3 text-xs text-destructive flex items-center gap-2">
+            <div className="rounded-lg bg-[#3a1111] border border-[#6b1e1e] p-3 font-mono text-xs text-[#c96] flex items-center gap-2">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{error}</span>
             </div>
           )}
 
-          <div className="space-y-3">
-            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-300 block">
-              1. Pilih Tanggal Baru
+          <div className="space-y-2">
+            <label className="font-mono text-[10px] uppercase tracking-wider text-[#e8e6df] block">
+              1. PILIH TANGGAL BARU
             </label>
             <input
               type="date"
@@ -314,22 +314,22 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
               value={newDate}
               onChange={(e) => handleNewDateChange(e.target.value)}
               required
-              className="w-full rounded-lg border border-white/[0.12] bg-[#09090b] px-4 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400"
+              className="w-full border border-[#f3f1eb]/[0.12] bg-[#0a0a0a] px-4 py-2.5 font-mono text-xs text-[#f3f1eb] focus:outline-none focus:border-[#f3f1eb]/[0.4]"
             />
           </div>
 
           {newDate && (
-            <div className="space-y-3">
-              <label className="text-xs font-semibold uppercase tracking-wider text-neutral-300 block">
-                2. Pilih Slot Jam Baru yang Tersedia
+            <div className="space-y-2">
+              <label className="font-mono text-[10px] uppercase tracking-wider text-[#e8e6df] block">
+                2. PILIH SLOT JAM BARU
               </label>
 
               {loadingSlots && (
-                <p className="text-xs text-neutral-400 animate-pulse">Memeriksa ketersediaan slot...</p>
+                <p className="font-mono text-xs text-[#6f6f6a] animate-pulse">Memeriksa ketersediaan slot...</p>
               )}
 
               {!loadingSlots && availableSlots.length === 0 && (
-                <p className="text-xs text-neutral-500">Tidak ada slot kosong pada tanggal ini. Coba pilih tanggal lain.</p>
+                <p className="font-mono text-xs text-[#6f6f6a]">Tidak ada slot kosong pada tanggal ini. Coba pilih tanggal lain.</p>
               )}
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -341,16 +341,16 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
                       type="button"
                       disabled={!s.available}
                       onClick={() => setSelectedSlot(s)}
-                      className={`p-3 rounded-lg border text-left text-xs transition-all ${
+                      className={`p-3 border text-left font-mono text-xs transition-all ${
                         !s.available
-                          ? "opacity-30 cursor-not-allowed bg-black/40 border-white/5"
+                          ? "opacity-30 cursor-not-allowed bg-[#0a0a0a] border-[#f3f1eb]/5"
                           : isSelected
-                          ? "border-amber-400 bg-amber-400/20 text-white font-bold ring-1 ring-amber-400"
-                          : "border-white/10 bg-[#09090b] text-neutral-300 hover:border-white/30"
+                          ? "border-[#f3f1eb] bg-[#141414] text-[#f3f1eb] font-bold ring-1 ring-[#f3f1eb]"
+                          : "border-[#f3f1eb]/10 bg-[#0a0a0a] text-[#e8e6df] hover:border-[#f3f1eb]/30"
                       }`}
                     >
                       <p className="font-semibold">{formatTime(s.startTime)} - {formatTime(s.endTime)}</p>
-                      <p className="text-[10px] text-neutral-400 mt-0.5">{s.available ? "Tersedia" : "Penuh"}</p>
+                      <p className="text-[10px] text-[#6f6f6a] mt-0.5">{s.available ? "Tersedia" : "Penuh"}</p>
                     </button>
                   )
                 })}
@@ -359,15 +359,15 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
           )}
 
           <div className="space-y-2">
-            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-300 block">
-              Alasan Penjadwalan Ulang (Opsional)
+            <label className="font-mono text-[10px] uppercase tracking-wider text-[#e8e6df] block">
+              ALASAN PENJADWALAN ULANG (OPSIONAL)
             </label>
             <input
               type="text"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Contoh: Berhalangan hadir / bentrok acara"
-              className="w-full rounded-lg border border-white/[0.12] bg-[#09090b] px-4 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400"
+              className="w-full border border-[#f3f1eb]/[0.12] bg-[#0a0a0a] px-4 py-2.5 font-mono text-xs text-[#f3f1eb] focus:outline-none focus:border-[#f3f1eb]/[0.4]"
             />
           </div>
 
@@ -375,7 +375,7 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
             <Button
               type="submit"
               disabled={loading || !selectedSlot}
-              className="h-10 text-xs uppercase tracking-widest font-bold bg-white text-black hover:bg-neutral-200"
+              className="h-10 font-mono text-[10px] uppercase tracking-widest font-medium bg-[#f3f1eb] text-[#0a0a0a] hover:bg-[#e8e6df] rounded-none"
             >
               {loading ? "Menyimpan..." : "Konfirmasi Jadwal Baru"}
             </Button>
@@ -383,7 +383,7 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
               type="button"
               variant="ghost"
               onClick={() => setShowReschedule(false)}
-              className="h-10 text-xs uppercase tracking-widest"
+              className="h-10 font-mono text-[10px] uppercase tracking-widest rounded-none text-[#6f6f6a] hover:text-[#f3f1eb]"
             >
               Batal
             </Button>
@@ -393,20 +393,20 @@ export function BookingDetailView({ booking, product, reschedules }: BookingDeta
 
       {/* Historical Reschedules */}
       {reschedules.length > 0 && (
-        <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-4">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+        <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 space-y-4">
+          <h2 className="font-mono text-xs uppercase tracking-wider text-[#6f6f6a]">
             Riwayat Penjadwalan Ulang
           </h2>
-          <div className="divide-y border-white/[0.06] text-xs text-neutral-400">
+          <div className="divide-y divide-[#f3f1eb]/[0.08] font-mono text-xs text-[#6f6f6a]">
             {reschedules.map((r, i) => (
               <div key={i} className="py-3 space-y-1">
                 <p>
-                  Semula: <strong className="text-neutral-200">{r.originalDate} ({formatTime(r.originalStartTime)} - {formatTime(r.originalEndTime)})</strong>
+                  Semula: <strong className="text-[#e8e6df]">{r.originalDate} ({formatTime(r.originalStartTime)} - {formatTime(r.originalEndTime)})</strong>
                 </p>
                 <p>
-                  Menjadi: <strong className="text-amber-300">{r.newDate} ({formatTime(r.newStartTime)} - {formatTime(r.newEndTime)})</strong>
+                  Menjadi: <strong className="text-[#f3f1eb]">{r.newDate} ({formatTime(r.newStartTime)} - {formatTime(r.newEndTime)})</strong>
                 </p>
-                {r.reason && <p className="italic text-neutral-500">Alasan: {r.reason}</p>}
+                {r.reason && <p className="italic text-[#6f6f6a]">Alasan: {r.reason}</p>}
               </div>
             ))}
           </div>

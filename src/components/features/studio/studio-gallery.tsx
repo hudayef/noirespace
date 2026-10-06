@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Camera } from "lucide-react"
+import Image from "next/image"
 
 interface StudioGalleryProps {
   images?: string[]
@@ -12,17 +12,17 @@ const DEFAULT_STUDIO_PHOTOS = [
   {
     url: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop",
     caption: "Main Cyclorama Bay & Overhead Lighting Grid",
-    tag: "Studio Space",
+    tag: "STUDIO SPACE",
   },
   {
     url: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200&auto=format&fit=crop",
     caption: "Industrial Grade Strobe & Continuous Lighting Gear",
-    tag: "Lighting Rig",
+    tag: "LIGHTING RIG",
   },
   {
     url: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1200&auto=format&fit=crop",
     caption: "Client Monitoring Deck & Styling Lounge",
-    tag: "Client Area",
+    tag: "CLIENT AREA",
   },
 ]
 
@@ -32,7 +32,7 @@ export function StudioGallery({ images, productName }: StudioGalleryProps) {
       ? images.map((url, i) => ({
           url,
           caption: `${productName} — Sudut ${i + 1}`,
-          tag: `Area ${i + 1}`,
+          tag: `AREA ${i + 1}`,
         }))
       : DEFAULT_STUDIO_PHOTOS
 
@@ -40,31 +40,37 @@ export function StudioGallery({ images, productName }: StudioGalleryProps) {
   const currentPhoto = photoList[activeIdx] || photoList[0]
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* Featured Big Stage Frame */}
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-white/[0.1] bg-[#121217] group">
-        <img
+      <div className="relative aspect-[16/9] w-full overflow-hidden border border-[#f3f1eb]/[0.1] bg-[#111111] group">
+        <Image
           src={currentPhoto.url}
           alt={currentPhoto.caption}
-          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-          loading="eager"
+          fill
+          unoptimized
+          sizes="(max-width: 1024px) 100vw, 66vw"
+          className="object-cover object-center grayscale contrast-105 group-hover:grayscale-0 transition-all duration-700"
+          priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/90 via-transparent to-transparent pointer-events-none" />
 
-        {/* Floating badge */}
-        <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-black/60 backdrop-blur-md text-[11px] font-semibold text-white">
-          <Camera className="h-3.5 w-3.5 text-amber-400" />
+        {/* Specimen Tag */}
+        <div className="absolute top-4 left-4 font-mono text-[9px] uppercase tracking-[0.2em] text-[#e8e6df] px-2.5 py-1 bg-[#0a0a0a]/80 border border-[#f3f1eb]/[0.15]">
           <span>{currentPhoto.tag}</span>
         </div>
 
         {/* Bottom caption */}
         <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-amber-400 font-bold">Studio Preview</p>
-            <p className="text-sm font-semibold text-white">{currentPhoto.caption}</p>
+          <div className="space-y-0.5">
+            <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-[#6f6f6a]">
+              SPECIMEN PREVIEW
+            </p>
+            <p className="font-mono text-xs text-[#f3f1eb]">
+              {currentPhoto.caption}
+            </p>
           </div>
-          <div className="text-[11px] text-neutral-400 font-mono">
-            {activeIdx + 1} / {photoList.length}
+          <div className="font-mono text-[10px] text-[#6f6f6a] tracking-widest">
+            {String(activeIdx + 1).padStart(2, "0")} / {String(photoList.length).padStart(2, "0")}
           </div>
         </div>
       </div>
@@ -78,20 +84,21 @@ export function StudioGallery({ images, productName }: StudioGalleryProps) {
               key={idx}
               type="button"
               onClick={() => setActiveIdx(idx)}
-              className={`relative aspect-[16/10] overflow-hidden rounded-lg border text-left transition-all ${
+              className={`relative aspect-[16/10] overflow-hidden border text-left transition-all ${
                 isActive
-                  ? "border-amber-400 ring-2 ring-amber-400/40 opacity-100"
-                  : "border-white/[0.08] opacity-60 hover:opacity-100 hover:border-white/30"
+                  ? "border-[#f3f1eb] opacity-100 ring-1 ring-[#f3f1eb]"
+                  : "border-[#f3f1eb]/[0.08] opacity-50 hover:opacity-100 hover:border-[#f3f1eb]/[0.3]"
               }`}
             >
-              <img
+              <Image
                 src={photo.url}
                 alt={photo.caption}
-                className="h-full w-full object-cover"
-                loading="lazy"
+                fill
+                unoptimized
+                sizes="33vw"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-black/30" />
-              <span className="absolute bottom-1.5 left-2 text-[10px] font-medium text-white drop-shadow">
+              <span className="absolute bottom-1.5 left-2 font-mono text-[8px] uppercase tracking-wider text-[#f3f1eb] bg-[#0a0a0a]/80 px-1">
                 {photo.tag}
               </span>
             </button>

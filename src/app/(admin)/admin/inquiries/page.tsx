@@ -4,7 +4,8 @@ import { getSchoolInquiries, updateSchoolInquiryStatus, deleteSchoolInquiry } fr
 import { formatDate } from "@/lib/utils/format"
 import { Button } from "@/components/ui/button"
 import { AutoSubmitSelect } from "@/components/ui/auto-submit-select"
-import { GraduationCap, MessageSquare, Trash2 } from "lucide-react"
+import { SectionLabel, StatusBadge } from "@/components/editorial"
+import { MessageSquare, Trash2 } from "lucide-react"
 
 export default async function AdminInquiriesPage() {
   await requireAdmin()
@@ -36,18 +37,18 @@ export default async function AdminInquiriesPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-          <GraduationCap className="h-6 w-6 text-emerald-400" />
-          <span>Pengajuan Kerjasama Sekolah (B2B)</span>
+        <SectionLabel number="01" label="KEMITRAAN SEKOLAH" />
+        <h1 className="font-display text-2xl sm:text-3xl text-[#f3f1eb] font-normal">
+          Pengajuan Kerjasama (B2B)
         </h1>
-        <p className="text-neutral-400 text-xs sm:text-sm">
+        <p className="text-xs sm:text-sm text-[#6f6f6a]">
           Alur peninjauan formulir kerjasama workshop, study trip, dan kemitraan kurikulum sekolah.
         </p>
       </div>
 
-      <div className="rounded-xl border border-white/[0.08] divide-y divide-white/[0.06] bg-[#121217]">
+      <div className="border border-[#f3f1eb]/[0.1] divide-y divide-[#f3f1eb]/[0.08] bg-[#111111]">
         {list.length === 0 ? (
-          <p className="p-8 text-center text-xs text-neutral-400">Belum ada pengajuan masuk dari institusi sekolah.</p>
+          <p className="p-8 text-center font-mono text-xs text-[#6f6f6a]">Belum ada pengajuan masuk dari institusi sekolah.</p>
         ) : (
           list.map((inq) => {
             const cleanPhone = (inq.phone || "").replace(/[^0-9]/g, "")
@@ -61,20 +62,18 @@ export default async function AdminInquiriesPage() {
 
             return (
               <div key={inq.id} className="p-5 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 font-mono">
                   <div className="flex items-center gap-2.5">
-                    <span className="font-bold text-base text-white">{inq.schoolName}</span>
-                    <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded border border-white/10 bg-white/5 text-neutral-300">
-                      {inq.status}
-                    </span>
+                    <span className="font-display text-base text-[#f3f1eb] font-normal">{inq.schoolName}</span>
+                    <StatusBadge status={inq.status} />
                   </div>
-                  <p className="text-xs text-neutral-400">
-                    PIC: <strong className="text-white">{inq.picName}</strong> • Kontak: {inq.phone} ({inq.email})
+                  <p className="text-xs text-[#6f6f6a]">
+                    PIC: <strong className="text-[#f3f1eb] font-normal">{inq.picName}</strong> · Kontak: {inq.phone} ({inq.email})
                   </p>
-                  <p className="text-xs text-neutral-400">
-                    Program: <strong className="text-amber-300">{inq.programInterest || "-"}</strong> • Estimasi: {inq.studentCount || 0} siswa • Tgl: {formatDate(inq.createdAt)}
+                  <p className="text-xs text-[#6f6f6a]">
+                    Program: <strong className="text-[#e8e6df] font-normal">{inq.programInterest || "-"}</strong> · Estimasi: {inq.studentCount || 0} siswa · Tgl: {formatDate(inq.createdAt)}
                   </p>
-                  {inq.notes && <p className="text-xs italic text-neutral-500">Catatan: {inq.notes}</p>}
+                  {inq.notes && <p className="text-xs italic text-[#6f6f6a]">Catatan: {inq.notes}</p>}
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
@@ -83,10 +82,10 @@ export default async function AdminInquiriesPage() {
                       href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 text-xs font-semibold transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#f3f1eb]/[0.15] bg-[#141414] text-[#e8e6df] hover:text-[#f3f1eb] font-mono text-xs transition-colors"
                     >
-                      <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
-                      <span>Chat WhatsApp</span>
+                      <MessageSquare className="h-3 w-3 text-[#6f6f6a]" />
+                      <span>Chat WA</span>
                     </a>
                   )}
 
@@ -96,7 +95,7 @@ export default async function AdminInquiriesPage() {
                       name="status"
                       defaultValue={inq.status}
                       aria-label={`Ubah status pengajuan ${inq.schoolName}`}
-                      className="rounded-md border border-white/[0.12] bg-[#09090b] px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400"
+                      className="border border-[#f3f1eb]/[0.15] bg-[#0a0a0a] px-2.5 py-1.5 font-mono text-xs text-[#f3f1eb] focus:outline-none focus:border-[#f3f1eb]/[0.4]"
                     >
                       <option value="new">New</option>
                       <option value="contacted">Contacted</option>
@@ -112,7 +111,7 @@ export default async function AdminInquiriesPage() {
                       type="submit"
                       variant="ghost"
                       size="sm"
-                      className="text-neutral-500 hover:text-rose-400 h-8 px-2"
+                      className="text-[#6f6f6a] hover:text-[#e88] h-8 px-2"
                       aria-label={`Hapus pengajuan ${inq.schoolName}`}
                     >
                       <Trash2 className="h-4 w-4" />

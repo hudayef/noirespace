@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Sparkles, ArrowLeft } from "lucide-react"
+import { SectionLabel } from "@/components/editorial"
+import { ArrowLeft } from "lucide-react"
 
 export const metadata = {
   title: "Tentang Kami — Noire Space",
@@ -9,71 +9,70 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-6 lg:px-12 py-16 space-y-16 max-w-4xl">
+    <div className="container mx-auto px-6 lg:px-12 py-16 lg:py-24 space-y-16 max-w-4xl">
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[#6f6f6a] hover:text-[#f3f1eb] transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Beranda</span>
         </Link>
       </div>
 
       <div className="space-y-4">
-        <span className="text-[11px] uppercase tracking-[0.25em] text-amber-400 font-semibold flex items-center gap-2">
-          <Sparkles className="h-4 w-4" />
-          <span>Our Vision & Philosophy</span>
-        </span>
-        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
-          LEARN. CREATE. EARN.
+        <SectionLabel number="01" label="OUR PHILOSOPHY" />
+        <h1 className="font-display text-4xl sm:text-6xl font-normal tracking-tight text-[#f3f1eb] leading-tight">
+          LEARN · CREATE · EARN
         </h1>
-        <p className="text-lg text-neutral-300 leading-relaxed">
-          Noire Space adalah <strong className="text-white font-semibold">creative technology ecosystem</strong> yang didirikan untuk mempercepat pertumbuhan kreator muda melalui penguasaan teknologi visual, kecerdasan buatan, dan kemandirian berkarya secara komersial.
+        <p className="text-base sm:text-lg text-[#6f6f6a] leading-relaxed">
+          Noire Space adalah <strong className="text-[#f3f1eb] font-normal">creative technology ecosystem</strong> yang didirikan untuk mempercepat pertumbuhan kreator visual muda melalui fasilitas studio berstandar industri, pembelajaran berbasis proyek komersial nyata, dan monetisasi karya.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8 space-y-3">
-          <span className="text-xs uppercase tracking-widest text-amber-400 font-bold font-mono">01. Learn</span>
-          <h2 className="text-xl font-bold text-white">Edukasi Berbasis Praktik</h2>
-          <p className="text-xs text-neutral-400 leading-relaxed">
-            Kurikulum intensif dimentori oleh praktisi aktif industri komersial modern, fokus pada portfolio riil dan workflow efisien.
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono">
+        <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-8 space-y-3">
+          <span className="text-[10px] uppercase tracking-widest text-[#6f6f6a]">01 / LEARN</span>
+          <h2 className="font-display text-xl text-[#f3f1eb] font-normal font-sans">Edukasi Berbasis Praktik</h2>
+          <p className="text-xs text-[#6f6f6a] leading-relaxed font-sans">
+            Kurikulum intensif dimentori oleh praktisi aktif industri komersial modern, fokus langsung pada portfolio riil dan workflow efisien.
           </p>
         </div>
 
-        <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8 space-y-3">
-          <span className="text-xs uppercase tracking-widest text-indigo-400 font-bold font-mono">02. Create</span>
-          <h2 className="text-xl font-bold text-white">Fasilitas Standar Industri</h2>
-          <p className="text-xs text-neutral-400 leading-relaxed">
-            Akses ke studio tata cahaya terkalibrasi, lighting Godox & Aputure, multi-backdrop, dan tools kecerdasan buatan terkini.
+        <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-8 space-y-3">
+          <span className="text-[10px] uppercase tracking-widest text-[#6f6f6a]">02 / CREATE</span>
+          <h2 className="font-display text-xl text-[#f3f1eb] font-normal font-sans">Fasilitas Terkalibrasi</h2>
+          <p className="text-xs text-[#6f6f6a] leading-relaxed font-sans">
+            Akses ke studio tata cahaya profesional, continuous video lighting, seamless backdrops, dan workflow generative kreatif terkini.
           </p>
         </div>
 
-        <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 lg:p-8 space-y-3">
-          <span className="text-xs uppercase tracking-widest text-emerald-400 font-bold font-mono">03. Earn</span>
-          <h2 className="text-xl font-bold text-white">Komersialisasi Karya</h2>
-          <p className="text-xs text-neutral-400 leading-relaxed">
-            Menghubungkan karya kreator muda langsung dengan kebutuhan brand, UMKM, dan peluang monetisasi digital nyata.
+        <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 lg:p-8 space-y-3">
+          <span className="text-[10px] uppercase tracking-widest text-[#6f6f6a]">03 / EARN</span>
+          <h2 className="font-display text-xl text-[#f3f1eb] font-normal font-sans">Komersialisasi Karya</h2>
+          <p className="text-xs text-[#6f6f6a] leading-relaxed font-sans">
+            Menghubungkan karya talenta muda langsung dengan kebutuhan brand, UMKM, dan peluang monetisasi karya secara nyata.
           </p>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-r from-[#141419] to-[#0c0c10] p-8 lg:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="space-y-1 text-center sm:text-left">
-          <h3 className="text-xl font-bold text-white">Siap berkolaborasi atau memesan sesi?</h3>
-          <p className="text-xs text-neutral-400">Jadwalkan rental studio atau daftarkan diri Anda di program edukasi kami.</p>
+      <div className="border border-[#f3f1eb]/[0.1] bg-[#111111] p-8 lg:p-10 flex flex-col sm:flex-row items-baseline justify-between gap-6">
+        <div className="space-y-1">
+          <h3 className="font-display text-xl text-[#f3f1eb] font-normal">Siap berkolaborasi atau memesan sesi?</h3>
+          <p className="text-xs text-[#6f6f6a]">Jadwalkan rental studio atau daftarkan diri Anda di program edukasi kami.</p>
         </div>
         <div className="flex gap-3">
-          <Link href="/studio">
-            <Button size="sm" className="h-10 px-5 text-xs uppercase tracking-wider font-bold bg-white text-black hover:bg-neutral-200">
-              Pesan Studio
-            </Button>
+          <Link
+            href="/studio"
+            className="font-mono text-[11px] uppercase tracking-wider bg-[#f3f1eb] text-[#0a0a0a] px-5 py-2.5 hover:bg-[#e8e6df] font-medium transition-colors"
+          >
+            Pesan Studio
           </Link>
-          <Link href="/programs">
-            <Button size="sm" variant="outline" className="h-10 px-5 text-xs uppercase tracking-wider border-white/20 text-neutral-200 hover:text-white">
-              Lihat Program
-            </Button>
+          <Link
+            href="/programs"
+            className="font-mono text-[11px] uppercase tracking-wider border border-[#f3f1eb]/[0.15] text-[#e8e6df] px-5 py-2.5 hover:text-[#f3f1eb] hover:bg-[#171717] transition-colors"
+          >
+            Lihat Program
           </Link>
         </div>
       </div>

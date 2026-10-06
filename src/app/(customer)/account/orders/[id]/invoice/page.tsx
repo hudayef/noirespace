@@ -51,13 +51,13 @@ export default async function InvoicePage({ params }: Props) {
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-2xl font-bold tracking-wider text-black">NOIRE SPACE CREATIVE HUB</h1>
-            <p className="text-xs text-neutral-600 mt-1">Jl. Puricitayam Permai, Rawapanjang, Kab.Bogor</p>
-            <p className="text-xs text-neutral-600">noirespace.one@gmail.com • +62 882-1234-3431</p>
+            <p className="text-xs text-[#6f6f6a] mt-1">Jl. Puricitayam Permai, Rawapanjang, Kab.Bogor</p>
+            <p className="text-xs text-[#6f6f6a]">noirespace.one@gmail.com • +62 882-1234-3431</p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-neutral-600 uppercase tracking-wider">Faktur Resmi</p>
+            <p className="text-xs text-[#6f6f6a] uppercase tracking-wider">Faktur Resmi</p>
             <p className="text-lg font-bold font-mono text-black mt-1">#{order.orderNumber}</p>
-            <p className="text-xs text-neutral-600 mt-1">{formatDate(order.createdAt)}</p>
+            <p className="text-xs text-[#6f6f6a] mt-1">{formatDate(order.createdAt)}</p>
           </div>
         </div>
       </header>
@@ -65,11 +65,11 @@ export default async function InvoicePage({ params }: Props) {
       {/* Screen Header */}
       <div className="print:hidden flex items-center justify-between mb-8">
         <div className="flex items-center gap-2">
-          <Link href={isAdmin ? "/admin/orders" : "/account/orders"} className="text-neutral-400 hover:text-white transition-colors">
+          <Link href={isAdmin ? "/admin/orders" : "/account/orders"} className="text-[#6f6f6a] hover:text-white transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
-            <p className="text-[11px] uppercase tracking-wider text-amber-400 font-semibold">Invoice & Bukti Pesanan</p>
+            <p className="text-[11px] uppercase tracking-wider text-[#6f6f6a] font-semibold">Invoice & Bukti Pesanan</p>
             <h1 className="text-2xl font-extrabold tracking-tight text-white">#{order.orderNumber}</h1>
           </div>
         </div>
@@ -81,10 +81,10 @@ export default async function InvoicePage({ params }: Props) {
         <div className="print:hidden">
           <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs uppercase font-semibold ${
             order.status === "paid"
-              ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+              ? "bg-[#141414] text-[#f3f1eb] border-[#f3f1eb]/[0.3]"
               : order.status === "cancelled"
-              ? "bg-rose-500/10 text-rose-400 border-rose-500/30"
-              : "bg-amber-500/10 text-amber-400 border-amber-500/30"
+              ? "bg-[#1f0d0d] text-[#e88] border-[#6b1e1e]"
+              : "bg-[#111111] text-[#e8e6df] border-[#6f6f6a]/[0.4]"
           }`}>
             {order.status}
           </span>
@@ -92,51 +92,51 @@ export default async function InvoicePage({ params }: Props) {
 
         {/* Customer Info & Order Summary */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 print:grid-cols-2 print:gap-4">
-          <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 print:border-black/20 print:bg-white print:p-4">
+          <div className="rounded-none border border-[#f3f1eb]/[0.08] bg-[#111111] p-6 print:border-black/20 print:bg-white print:p-4">
             <h2 className="font-bold text-base text-white print:text-black mb-4 flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-amber-400 print:text-black" />
+              <Building2 className="h-4 w-4 text-[#e8e6df] print:text-black" />
               <span>Detail Pelanggan</span>
             </h2>
-            <dl className="space-y-2 text-sm text-neutral-300 print:text-black">
+            <dl className="space-y-2 text-sm text-[#e8e6df] print:text-black">
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Nama</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Nama</dt>
                 <dd className="font-medium text-white print:text-black">{orderCustomer?.name || session.user.name || "-"}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Email</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Email</dt>
                 <dd className="font-medium text-white print:text-black">{orderCustomer?.email || session.user.email}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">No. Pesanan</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">No. Pesanan</dt>
                 <dd className="font-mono font-bold text-white print:text-black">{order.orderNumber}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Tanggal Pesanan</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Tanggal Pesanan</dt>
                 <dd className="font-medium text-white print:text-black">{formatDate(order.createdAt)}</dd>
               </div>
             </dl>
           </div>
 
-          <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 print:border-black/20 print:bg-white print:p-4">
+          <div className="rounded-none border border-[#f3f1eb]/[0.08] bg-[#111111] p-6 print:border-black/20 print:bg-white print:p-4">
             <h2 className="font-bold text-base text-white print:text-black mb-4 flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-amber-400 print:text-black" />
+              <Calendar className="h-4 w-4 text-[#e8e6df] print:text-black" />
               <span>Ringkasan Pesanan</span>
             </h2>
-            <dl className="space-y-2 text-sm text-neutral-300 print:text-black">
+            <dl className="space-y-2 text-sm text-[#e8e6df] print:text-black">
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Status Pembayaran</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Status Pembayaran</dt>
                 <dd className="font-medium text-white print:text-black capitalize">{order.status}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Jumlah Item</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Jumlah Item</dt>
                 <dd className="font-medium text-white print:text-black">{order.items.length}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Total Tagihan</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Total Tagihan</dt>
                 <dd className="font-bold text-white print:text-black">{formatRupiah(order.total)}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-neutral-400 print:text-neutral-600">Jadwal Sesi</dt>
+                <dt className="text-[#6f6f6a] print:text-[#6f6f6a]">Jadwal Sesi</dt>
                 <dd className="font-medium text-white print:text-black">{orderBookings.length > 0 ? `${orderBookings.length} sesi` : "-"}</dd>
               </div>
             </dl>
@@ -145,9 +145,9 @@ export default async function InvoicePage({ params }: Props) {
 
         {/* Booking Details */}
         {orderBookings.length > 0 && (
-          <div className="rounded-xl border border-amber-400/20 bg-[#141311] p-6 print:border-black/20 print:bg-white">
+          <div className="rounded-none border border-[#f3f1eb]/[0.1] bg-[#111111] p-6 print:border-black/20 print:bg-white">
             <h2 className="font-bold text-base text-white print:text-black mb-4 flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-amber-400 print:text-black" />
+              <Calendar className="h-4 w-4 text-[#e8e6df] print:text-black" />
               <span>Detail Jadwal Sesi</span>
             </h2>
             <div className="divide-y divide-white/[0.08] print:divide-black/10">
@@ -155,20 +155,20 @@ export default async function InvoicePage({ params }: Props) {
                 <div key={b.id} className="py-4 first:pt-0 last:pb-0">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 text-sm text-white print:text-black font-medium">
-                      <span className="px-2 py-0.5 rounded bg-amber-400/20 text-amber-400 print:bg-amber-100 print:text-amber-800 font-mono text-xs">
+                      <span className="px-2 py-0.5 rounded bg-[#171717] text-[#e8e6df] print:bg-neutral-100 print:text-black font-mono text-xs">
                         Sesi {idx + 1}
                       </span>
-                      <span className="text-xs text-neutral-400 print:text-neutral-600 font-mono">#{b.bookingNumber}</span>
+                      <span className="text-xs text-[#6f6f6a] print:text-[#6f6f6a] font-mono">#{b.bookingNumber}</span>
                     </div>
-                    <span className="text-xs text-neutral-400 print:text-neutral-600 font-mono">{b.bookingDate}</span>
+                    <span className="text-xs text-[#6f6f6a] print:text-[#6f6f6a] font-mono">{b.bookingDate}</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                     <div className="flex items-center gap-2 text-white print:text-black">
-                      <Clock className="h-4 w-4 text-amber-400 print:text-black" />
+                      <Clock className="h-4 w-4 text-[#e8e6df] print:text-black" />
                       <span>{formatTime(b.startTime)} - {formatTime(b.endTime)} WIB</span>
                     </div>
                     <div className="flex items-center gap-2 text-white print:text-black">
-                      <MapPin className="h-4 w-4 text-amber-400 print:text-black" />
+                      <MapPin className="h-4 w-4 text-[#e8e6df] print:text-black" />
                       <span>Noire Space Creative Hub, Bogor</span>
                     </div>
                     <div className="flex items-center gap-2 text-white print:text-black">
@@ -184,14 +184,14 @@ export default async function InvoicePage({ params }: Props) {
         )}
 
         {/* Itemized Breakdown */}
-        <div className="rounded-xl border border-white/[0.08] bg-[#121217] p-6 print:border-black/20 print:bg-white">
+        <div className="rounded-none border border-[#f3f1eb]/[0.08] bg-[#111111] p-6 print:border-black/20 print:bg-white">
           <h2 className="font-bold text-base text-white print:text-black mb-4 flex items-center gap-2">
-            <span className="h-4 w-4 text-amber-400 print:text-black">📋</span>
+            <span className="h-4 w-4 text-[#e8e6df] print:text-black">📋</span>
             <span>Rincian Biaya</span>
           </h2>
-          <table className="w-full text-sm text-neutral-300 print:text-black">
+          <table className="w-full text-sm text-[#e8e6df] print:text-black">
             <thead>
-              <tr className="border-b border-white/[0.08] print:border-black/20">
+              <tr className="border-b border-[#f3f1eb]/[0.08] print:border-black/20">
                 <th className="text-left py-2 font-semibold text-white print:text-black">Layanan</th>
                 <th className="text-right py-2 font-semibold text-white print:text-black w-20">Qty</th>
                 <th className="text-right py-2 font-semibold text-white print:text-black w-32">Harga</th>
@@ -209,7 +209,7 @@ export default async function InvoicePage({ params }: Props) {
               ))}
             </tbody>
             <tfoot>
-              <tr className="border-t-2 border-white/[0.08] print:border-black/20">
+              <tr className="border-t-2 border-[#f3f1eb]/[0.08] print:border-black/20">
                 <td colSpan={3} className="text-right py-3 font-bold text-white print:text-black">TOTAL</td>
                 <td className="text-right py-3 font-bold text-white print:text-black text-lg">{formatRupiah(order.total)}</td>
               </tr>
@@ -218,7 +218,7 @@ export default async function InvoicePage({ params }: Props) {
         </div>
 
         {/* Footer Notes */}
-        <div className="print:hidden rounded-xl border border-white/[0.08] bg-[#121217] p-6 space-y-3 text-xs text-neutral-400">
+        <div className="print:hidden rounded-none border border-[#f3f1eb]/[0.08] bg-[#111111] p-6 space-y-3 text-xs text-[#6f6f6a]">
           <p><strong className="text-white">Catatan Penting:</strong></p>
           <ul className="list-disc list-inside space-y-1">
             <li>Faktur ini bersifat sah sebagai bukti pemesanan resmi Noire Space.</li>
@@ -232,14 +232,14 @@ export default async function InvoicePage({ params }: Props) {
         <footer className="print:block hidden mt-12 pt-6 border-t border-black space-y-8">
           <div className="grid grid-cols-2 gap-8">
             <div>
-              <p className="text-xs text-neutral-600 uppercase tracking-wider">Disetujui oleh</p>
+              <p className="text-xs text-[#6f6f6a] uppercase tracking-wider">Disetujui oleh</p>
               <p className="text-sm font-medium text-black mt-4">{session.user.name || "Pelanggan"}</p>
-              <p className="text-xs text-neutral-500 mt-8 border-t border-dotted pt-2">Tanda Tangan</p>
+              <p className="text-xs text-[#6f6f6a] mt-8 border-t border-dotted pt-2">Tanda Tangan</p>
             </div>
             <div>
-              <p className="text-xs text-neutral-600 uppercase tracking-wider">Noire Space Admin</p>
+              <p className="text-xs text-[#6f6f6a] uppercase tracking-wider">Noire Space Admin</p>
               <p className="text-sm font-medium text-black mt-4">Tim Concierge</p>
-              <p className="text-xs text-neutral-500 mt-8 border-t border-dotted pt-2">Tanda Tangan & Stempel</p>
+              <p className="text-xs text-[#6f6f6a] mt-8 border-t border-dotted pt-2">Tanda Tangan & Stempel</p>
             </div>
           </div>
         </footer>
